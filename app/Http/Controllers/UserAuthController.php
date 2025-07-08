@@ -46,5 +46,13 @@ class UserAuthController extends Controller
         $token = $user->createToken("token");
         return response()->json(["ok" => true, 'user' => $user, 'token' => $token->plainTextToken, "status" => 201]);
     }
+    public  function logout()
+    {
+        $user = auth()->user();
+           $user->tokens()->delete();
+            // $request->user()->currentAccessToken()->delete();
+            return response()->json(["ok" => true, "message" => "Logged out successfully"]);
+
+    }
 
 }
