@@ -9,11 +9,11 @@
 
                         <div class="text-center w-75 mx-auto auth-logo mb-4">
                             <a href="index.html" class="logo-dark">
-                                <span><img src="assets/images/logo-dark.png" alt="" height="22"></span>
+                                <span><img src="assets/images/logo_ride.jpg" alt="" style="width:full; height:50px"></span>
                             </a>
 
                             <a href="index.html" class="logo-light">
-                                <span><img src="assets/images/logo-light.png" alt="" height="22"></span>
+                                <span><img src="assets/images/logo_ride.jpg" alt="" style="width:full; height:50px;"></span>
                             </a>
                         </div>
 

@@ -6,14 +6,14 @@
             <div class="logo-box">
                 <!-- Brand Logo Light -->
                 <a href="index.html" class="logo-light">
-                    <img src="assets/images/logo-light.png" alt="logo" class="logo-lg" height="28">
-                    <img src="assets/images/logo-sm.png" alt="small logo" class="logo-sm" height="28">
+                    <img src="assets/images/logo_ride.jpg" alt="logo" class="logo-lg" style="width:140px; height:70px; border: none; border-radius: 5%;" >
+                    {{-- <img src="assets/images/logo-sm.png" alt="small logo" class="logo-sm" height="28"> --}}
                 </a>
 
                 <!-- Brand Logo Dark -->
                 <a href="index.html" class="logo-dark">
-                    <img src="assets/images/logo-dark.png" alt="dark logo" class="logo-lg" height="28">
-                    <img src="assets/images/logo-sm.png" alt="small logo" class="logo-sm" height="28">
+                    <img src="assets/images/logo_ride.jpg" alt="dark logo" class="logo-lg" style="width:140px; height:70px; border: none; border-radius:5%;"  >
+                    {{-- <img src="assets/images/logo-sm.png" alt="small logo" class="logo-sm" height="28"> --}}
                 </a>
             </div>
 
@@ -36,15 +36,15 @@
                     <li class="menu-item">
                         <a href="apps-calendar.html" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-calendar"></i></span>
-                            <span class="menu-text"> Calendar </span>
+                            <span class="menu-text">Manage Rides </span>
                         </a>
                     </li>
 
                     <li class="menu-item">
                         <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-file"></i></span>
-                            <span class="menu-text"> Extra Pages </span>
-                            <span class="menu-arrow"></span>
+                            <span class="menu-text"> Users </span>
+                            {{-- <span class="menu-arrow"></span> --}}
                         </a>
                         <div class="collapse" id="menuExpages">
                             <ul class="sub-menu">
@@ -95,8 +95,8 @@
                     <li class="menu-item">
                         <a href="#menuLayouts" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-layout"></i></span>
-                            <span class="menu-text"> Layouts </span>
-                            <span class="badge bg-blue ms-auto">New</span>
+                            <span class="menu-text"> Drivers </span>
+                            {{-- <span class="badge bg-blue ms-auto">New</span> --}}
                         </a>
                         <div class="collapse" id="menuLayouts">
                             <ul class="sub-menu">
@@ -132,8 +132,8 @@
                     <li class="menu-item">
                         <a href="#menuComponentsui" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-cookie"></i></span>
-                            <span class="menu-text"> UI Elements </span>
-                            <span class="menu-arrow"></span>
+                            <span class="menu-text"> Bookings </span>
+                            {{-- <span class="menu-arrow"></span> --}}
                         </a>
                         <div class="collapse" id="menuComponentsui">
                             <ul class="sub-menu">
@@ -234,8 +234,8 @@
                     <li class="menu-item">
                         <a href="#menuExtendedui" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-briefcase-alt-2"></i></span>
-                            <span class="menu-text"> Components </span>
-                            <span class="badge bg-info ms-auto">Hot</span>
+                            <span class="menu-text"> Vehicles </span>
+                            {{-- <span class="badge bg-info ms-auto">Hot</span> --}}
                         </a>
                         <div class="collapse" id="menuExtendedui">
                             <ul class="sub-menu">
@@ -261,8 +261,8 @@
                     <li class="menu-item">
                         <a href="#menuIcons" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-aperture"></i></span>
-                            <span class="menu-text"> Icons </span>
-                            <span class="menu-arrow"></span>
+                            <span class="menu-text"> Requests </span>
+                            {{-- <span class="menu-arrow"></span> --}}
                         </a>
                         <div class="collapse" id="menuIcons">
                             <ul class="sub-menu">
@@ -288,8 +288,8 @@
                     <li class="menu-item">
                         <a href="#menuForms" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bxs-eraser"></i></span>
-                            <span class="menu-text"> Forms </span>
-                            <span class="menu-arrow"></span>
+                            <span class="menu-text"> Payments </span>
+                            {{-- <span class="menu-arrow"></span> --}}
                         </a>
                         <div class="collapse" id="menuForms">
                             <ul class="sub-menu">
@@ -325,10 +325,10 @@
                     <li class="menu-item">
                         <a href="#menuTables" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-table"></i></span>
-                            <span class="menu-text"> Tables </span>
-                            <span class="menu-arrow"></span>
+                            <span class="menu-text"> Reports </span>
+                            {{-- <span class="menu-arrow"></span> --}}
                         </a>
-                        <div class="collapse" id="menuTables">
+                        {{-- <div class="collapse" id="menuTables">
                             <ul class="sub-menu">
                                 <li class="menu-item">
                                     <a href="tables-basic.html" class="menu-link">
@@ -341,14 +341,14 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> --}}
                     </li>
 
                     <li class="menu-item">
                         <a href="#menuCharts" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-doughnut-chart"></i></span>
-                            <span class="menu-text"> Charts </span>
-                            <span class="menu-arrow"></span>
+                            <span class="menu-text"> Settings </span>
+                            {{-- <span class="menu-arrow"></span> --}}
                         </a>
                         <div class="collapse" id="menuCharts">
                             <ul class="sub-menu">
@@ -371,7 +371,7 @@
                         </div>
                     </li>
 
-                    <li class="menu-item">
+                    {{-- <li class="menu-item">
                         <a href="#menuMaps" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-map-alt"></i></span>
                             <span class="menu-text"> Maps </span>
@@ -391,9 +391,9 @@
                                 </li>
                             </ul>
                         </div>
-                    </li>
+                    </li> --}}
 
-                    <li class="menu-item">
+                    {{-- <li class="menu-item">
                         <a href="#menuMultilevel" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-share-alt"></i></span>
                             <span class="menu-text"> Multi Level </span>
@@ -407,7 +407,7 @@
                                         <span class="menu-text"> Second Level </span>
                                         <span class="menu-arrow"></span>
                                     </a>
-                                    {{-- <div class="collapse" id="menuMultilevel2">
+                                    <div class="collapse" id="menuMultilevel2">
                                         <ul class="sub-menu">
                                             <li class="menu-item">
                                                 <a href="javascript: void(0);" class="menu-link">
@@ -420,7 +420,7 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                    </div> --}}
+                                    </div>
                                 </li>
 
                                 <li class="menu-item">
@@ -442,7 +442,7 @@
                                                     <span class="menu-text">Item 2</span>
                                                     <span class="menu-arrow"></span>
                                                 </a>
-                                                {{-- <div class="collapse" id="menuMultilevel4">
+                                                <div class="collapse" id="menuMultilevel4">
                                                     <ul class="sub-menu">
                                                         <li class="menu-item">
                                                             <a href="javascript: void(0);" class="menu-link">
@@ -455,14 +455,14 @@
                                                             </a>
                                                         </li>
                                                     </ul>
-                                                </div> --}}
+                                                </div>
                                             </li>
                                         </ul>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>
@@ -756,12 +756,12 @@
                                 <div class="card-body">
                                     <div class="mb-4">
                                         <span class="badge badge-soft-primary float-end">Daily</span>
-                                        <h5 class="card-title mb-0">Cost per Unit</h5>
+                                        <h5 class="card-title mb-0">Driver Performance</h5>
                                     </div>
                                     <div class="row d-flex align-items-center mb-4">
                                         <div class="col-8">
                                             <h2 class="d-flex align-items-center mb-0">
-                                                $17.21
+                                                $171.21
                                             </h2>
                                         </div>
                                         <div class="col-4 text-end">
@@ -784,7 +784,7 @@
                                 <div class="card-body">
                                     <div class="mb-4">
                                         <span class="badge badge-soft-primary float-end">Per Week</span>
-                                        <h5 class="card-title mb-0">Market Revenue</h5>
+                                        <h5 class="card-title mb-0">Revenue Overview</h5>
                                     </div>
                                     <div class="row d-flex align-items-center mb-4">
                                         <div class="col-8">
@@ -794,7 +794,7 @@
                                         </div>
                                         <div class="col-4 text-end">
                                             <span class="text-muted">18.71% <i
-                                                    class="mdi mdi-arrow-down text-danger"></i></span>
+                                                    class="mdi mdi-arrow-up text-success"></i></span>
                                         </div>
                                     </div>
 
@@ -811,8 +811,8 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="mb-4">
-                                        <span class="badge badge-soft-primary float-end">Per Month</span>
-                                        <h5 class="card-title mb-0">Expenses</h5>
+                                        <span class="badge badge-soft-primary float-end">Daily</span>
+                                        <h5 class="card-title mb-0">Recent Bookings</h5>
                                     </div>
                                     <div class="row d-flex align-items-center mb-4">
                                         <div class="col-8">
@@ -851,7 +851,7 @@
                                         </div>
                                         <div class="col-4 text-end">
                                             <span class="text-muted">17.8% <i
-                                                    class="mdi mdi-arrow-down text-danger"></i></span>
+                                                    class="mdi mdi-arrow-up text-success"></i></span>
                                         </div>
                                     </div>
 
@@ -870,7 +870,7 @@
                         <div class="col-lg-5">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Sales Analytics</h4>
+                                    <h4 class="card-title">Earnings Growth</h4>
                                     <p class="card-subtitle mb-4">From date of 1st Jan 2020 to continue</p>
                                     <div id="morris-bar-example" class="morris-chart"></div>
                                 </div> <!--end card body-->
@@ -880,14 +880,14 @@
                         <div class="col-lg-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Stock</h4>
-                                    <p class="card-subtitle mb-4">Recent Stock</p>
+                                    <h4 class="card-title">Ride Trends</h4>
+                                    <p class="card-subtitle mb-4">Recent Ride</p>
 
                                     <div class="text-center">
                                         <input data-plugin="knob" data-width="165" data-height="165" data-linecap=round
                                             data-fgColor="#7a08c2" value="95" data-skin="tron" data-angleOffset="180"
                                             data-readOnly=true data-thickness=".15" />
-                                        <h5 class="text-muted mt-3">Total sales made today</h5>
+                                        <h5 class="text-muted mt-3">Total ride made today</h5>
 
 
                                         <p class="text-muted w-75 mx-auto sp-line-2">Traditional heading
@@ -916,7 +916,7 @@
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col">
-                                            <h4 class="card-title">Account Transactions</h4>
+                                            <h4 class="card-title">Booking Analytics</h4>
                                             <p class="card-subtitle mb-4">Transaction period from 21 July to
                                                 25 Aug</p>
                                             <h3>$7841.12 <span class="badge badge-soft-success float-end">+7.5%</span>
