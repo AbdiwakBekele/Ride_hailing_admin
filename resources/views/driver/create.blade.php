@@ -57,69 +57,96 @@
                             </ul>
                         </div>
                     </li>
-
-                    <li class="menu-item">
-                        <a href="{{ route('drivers.create') }}"  class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bx-layout"></i></span>
+  <li class="menu-item">
+                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                            <span class="menu-icon"><i class="bx bx-file"></i></span>
                             <span class="menu-text"> Drivers </span>
-                            {{-- <span class="badge bg-blue ms-auto">New</span> --}}
+                            <span class="menu-arrow"></span>
                         </a>
-                        <div class="collapse" id="menuLayouts">
+                        <div class="collapse" id="menuExpages">
                             <ul class="sub-menu">
                                 <li class="menu-item">
-                                    <a href="layout-horizontal.html" class="menu-link">
-                                        <span class="menu-text">Horizontal</span>
+                                     <a href="{{ route('drivers.index') }}" class="menu-link">
+                                        <span class="menu-text">View drivers</span>
                                     </a>
                                 </li>
-
-                               
+                                <li class="menu-item">
+                                     <a href="{{ route('drivers.create') }}" class="menu-link">
+                                        <span class="menu-text">Add drivers</span>
+                                    </a>
+                                </li>
+                             
                             </ul>
                         </div>
                     </li>
 
                     <li class="menu-title">Components</li>
 
-                  <li class="menu-item">
-                        <a href="{{ route('clients.create') }}" class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bx-cookie"></i></span>
-                            <span class="menu-text"> Client </span>
-                            {{-- <span class="menu-arrow"></span> --}}
+                 <li class="menu-item">
+                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                            <span class="menu-icon"><i class="bx bx-file"></i></span>
+                            <span class="menu-text"> Clients </span>
+                            <span class="menu-arrow"></span>
                         </a>
-                       
-                    </li>
-
-                    <li class="menu-item">
-                        <a href="{{ route('drivers.create') }}" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bx-briefcase-alt-2"></i></span>
-                            <span class="menu-text"> Vehicles </span>
-                            {{-- <span class="badge bg-info ms-auto">Hot</span> --}}
-                        </a>
-                        <div class="collapse" id="menuExtendedui">
+                        <div class="collapse" id="menuExpages">
                             <ul class="sub-menu">
                                 <li class="menu-item">
-                                     <a href="{{ route('cars.create') }}"class="menu-link">
-                                        <span class="menu-text">Range Slider</span>
+                                     <a href="{{ route('clients.index') }}" class="menu-link">
+                                        <span class="menu-text">View clients</span>
                                     </a>
                                 </li>
-                               
+                                <li class="menu-item">
+                                     <a href="{{ route('clients.create') }}" class="menu-link">
+                                        <span class="menu-text">Add clients</span>
+                                    </a>
+                                </li>
+                             
                             </ul>
                         </div>
                     </li>
 
-                    <li class="menu-item">
-                        <a href="#menuIcons" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bx-aperture"></i></span>
-                            <span class="menu-text"> Requests </span>
-                            {{-- <span class="menu-arrow"></span> --}}
+                     <li class="menu-item">
+                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                            <span class="menu-icon"><i class="bx bx-file"></i></span>
+                            <span class="menu-text"> Cars </span>
+                            <span class="menu-arrow"></span>
                         </a>
-                        <div class="collapse" id="menuIcons">
+                        <div class="collapse" id="menuExpages">
                             <ul class="sub-menu">
                                 <li class="menu-item">
-                                    <a href="icons-feather.html" class="menu-link">
-                                        <span class="menu-text">Feather Icons</span>
+                                     <a href="{{ route('cars.index') }}" class="menu-link">
+                                        <span class="menu-text">View cars</span>
                                     </a>
                                 </li>
-                               
+                                <li class="menu-item">
+                                     <a href="{{ route('cars.create') }}" class="menu-link">
+                                        <span class="menu-text">Add cars</span>
+                                    </a>
+                                </li>
+                             
+                            </ul>
+                        </div>
+                    </li>
+
+                  <li class="menu-item">
+                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                            <span class="menu-icon"><i class="bx bx-file"></i></span>
+                            <span class="menu-text"> Routes </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="menuExpages">
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                     <a href="{{ route('routes.index') }}" class="menu-link">
+                                        <span class="menu-text">View routes</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                     <a href="{{ route('routes.create') }}" class="menu-link">
+                                        <span class="menu-text">Add routes</span>
+                                    </a>
+                                </li>
+                             
                             </ul>
                         </div>
                     </li>

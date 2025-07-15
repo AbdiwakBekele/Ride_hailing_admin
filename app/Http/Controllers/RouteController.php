@@ -57,16 +57,18 @@ class RouteController extends Controller
     // Display the specified route
     public function show(Route $route)
     {
-        return view('routes.show', compact('route')); // Return view with specific route data
+        return view('routes.show', compact('route')); 
     }
 
-    // Show the form for editing the specified route
+   
     public function edit(Route $route)
     {
-        return view('routes.edit', compact('route')); // Return view for editing the route
+        $drivers=Driver::all();
+        $clients=Client::all();
+        return view('routes.edit', compact('route','drivers','clients')); 
     }
 
-    // Update the specified route in storage
+    
     public function update(Request $request, Route $route)
     {
         $request->validate([
@@ -81,7 +83,7 @@ class RouteController extends Controller
             'status' => 'required|in:Completed,Cancelled,In Progress',
         ]);
 
-        $route->update($request->all()); // Mass assignment to update the route
+        $route->update($request->all()); 
 
         return redirect()->route('routes.index')->with('success', 'Route updated successfully.');
     }
