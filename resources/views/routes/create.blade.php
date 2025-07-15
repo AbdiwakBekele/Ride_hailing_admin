@@ -477,7 +477,7 @@
                                    <div class="d-none d-lg-block">
                                     <ol class="breadcrumb m-0 float-end">
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
-                                        <li class="breadcrumb-item active">Form Validation</li>
+                                        <li class="breadcrumb-item active"></li>
                                     </ol>
                                    </div>
                                 </div>

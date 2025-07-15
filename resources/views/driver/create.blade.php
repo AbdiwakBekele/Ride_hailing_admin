@@ -475,8 +475,8 @@
                                 <div class="col-lg-6">
                                    <div class="d-none d-lg-block">
                                     <ol class="breadcrumb m-0 float-end">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
-                                        <li class="breadcrumb-item active">Form Validation</li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);"></a></li>
+                                        <li class="breadcrumb-item active"></li>
                                     </ol>
                                    </div>
                                 </div>
@@ -563,7 +563,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-primary" type="submit">Submit form</button>
+                                            <button class="btn btn-primary" type="submit">Add Driver</button>
                                         </form>
 
                                     </div> <!-- end card-body-->
