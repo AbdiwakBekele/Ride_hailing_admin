@@ -14,8 +14,8 @@ class Client extends Model
         'address',
         'registration_date',
         'status',
-    ]
-    ;
+    ];
+    
     public function route(){
         return $this->belongsTo(Route::class,'client_id');
     }

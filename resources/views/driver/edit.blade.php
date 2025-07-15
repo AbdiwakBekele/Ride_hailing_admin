@@ -80,21 +80,12 @@
                     <li class="menu-title">Components</li>
 
                     <li class="menu-item">
-                        <a href="#menuComponentsui" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                        <a href="{{ route('clients.create') }}" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-cookie"></i></span>
-                            <span class="menu-text"> Bookings </span>
+                            <span class="menu-text"> Client </span>
                             {{-- <span class="menu-arrow"></span> --}}
                         </a>
-                        <div class="collapse" id="menuComponentsui">
-                            <ul class="sub-menu">
-                                <li class="menu-item">
-                                    <a href="ui-alerts.html" class="menu-link">
-                                        <span class="menu-text">Alerts</span>
-                                    </a>
-                                </li>
-                              
-                            </ul>
-                        </div>
+                       
                     </li>
 
                     <li class="menu-item">
@@ -106,7 +97,7 @@
                         <div class="collapse" id="menuExtendedui">
                             <ul class="sub-menu">
                                 <li class="menu-item">
-                                    <a href="components-range-slider.html" class="menu-link">
+                                     <a href="{{ route('cars.create') }}"class="menu-link">
                                         <span class="menu-text">Range Slider</span>
                                     </a>
                                 </li>
@@ -474,59 +465,75 @@
                                         <p class="sub-header"></p>
 
                                            
-                <form class="needs-validation" method="POST" action="{{ route('drivers.update', $driver->id) }}" novalidate>
-                    @csrf 
-                    @method('PUT') <!-- Specify the PUT method for updates -->
+              <form class="needs-validation" method="POST" action="{{ route('cars.update', $car->id) }}" novalidate>
+    @csrf 
+    @method('PUT') <!-- Specify the PUT method for updates -->
 
-                    <div class="mb-3">
-                        <label for="validationCustom01" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="validationCustom01" placeholder="Full Name" value="{{ old('full_name', $driver->full_name) }}" name="full_name" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
+    <div class="mb-3">
+        <label for="validationCustom01" class="form-label">Car Name</label>
+        <input type="text" class="form-control" id="validationCustom01" placeholder="Car Name" value="{{ old('car_name', $car->car_name) }}" name="car_name" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div>
 
-                    <div class="mb-3">
-                        <label for="validationCustom02" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="validationCustom02" placeholder="Phone Number" value="{{ old('phone_number', $driver->phone_number) }}" name="phone_number" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
+    <div class="mb-3">
+        <label for="validationCustom02" class="form-label">Car Model</label>
+        <input type="text" class="form-control" id="validationCustom02" placeholder="Car Model" value="{{ old('car_model', $car->car_model) }}" name="car_model" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div>
 
-                    <div class="mb-3">
-                        <label for="validationCustom03" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="validationCustom03" placeholder="Email" value="{{ old('email', $driver->email) }}" name="email" required>
-                        <div class="valid-feedback">
-                            Looks good!
-                        </div>
-                    </div>
+    <div class="mb-3">
+        <label for="validationCustom03" class="form-label">Year Manufactured</label>
+        <input type="number" class="form-control" id="validationCustom03" placeholder="Year Manufactured" value="{{ old('year_manufactured', $car->year_manufactured) }}" name="year_manufactured" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div>
 
-                    <div class="mb-3">
-                        <label for="validationCustom04" class="form-label">License Number</label>
-                        <input type="text" class="form-control" id="validationCustom04" placeholder="License Number" value="{{ old('license_number', $driver->license_number) }}" name="license_number" required>
-                        <div class="invalid-feedback">
-                            Please provide a valid License Number.
-                        </div>
-                    </div>
+    <div class="mb-3">
+        <label for="validationCustom04" class="form-label">Chassis Number</label>
+        <input type="text" class="form-control" id="validationCustom04" placeholder="Chassis Number" value="{{ old('chassis_number', $car->chassis_number) }}" name="chassis_number" required>
+        <div class="invalid-feedback">
+            Please provide a valid Chassis Number.
+        </div>
+    </div>
 
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-select" id="status" name="status" required>
-                            <option value="" disabled>Select Status</option>
-                            <option value="Active" {{ $driver->status == 'Active' ? 'selected' : '' }}>Active</option>
-                            <option value="Inactive" {{ $driver->status == 'Inactive' ? 'selected' : '' }}>Inactive</option>
-                            <option value="Suspended" {{ $driver->status == 'Suspended' ? 'selected' : '' }}>Suspended</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Please select a valid status.
-                        </div>
-                    </div>
+    <div class="mb-3">
+        <label for="plate_number" class="form-label">Plate Number</label>
+        <input type="text" class="form-control" id="plate_number" placeholder="Plate Number" value="{{ old('plate_number', $car->plate_number) }}" name="plate_number" required>
+        <div class="invalid-feedback">
+            Please provide a valid Plate Number.
+        </div>
+    </div>
 
-                   
+    <div class="mb-3">
+        <label for="color" class="form-label">Color</label>
+        <input type="text" class="form-control" id="color" placeholder="Color" value="{{ old('color', $car->color) }}" name="color" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div>
 
-                    <button class="btn btn-primary" type="submit">Update Driver</button> <!-- Change button text -->
-                </form>
+    <div class="mb-3">
+        <label for="type" class="form-label">Type</label>
+        <select class="form-select" id="type" name="type" required>
+            <option value="" disabled>Select Type</option>
+            <option value="Sedan" {{ $car->type == 'Sedan' ? 'selected' : '' }}>Sedan</option>
+            <option value="SUV" {{ $car->type == 'SUV' ? 'selected' : '' }}>SUV</option>
+            <option value="Minivan" {{ $car->type == 'Minivan' ? 'selected' : '' }}>Minivan</option>
+            <option value="Other" {{ $car->type == 'Other' ? 'selected' : '' }}>Other</option>
+        </select>
+        <div class="invalid-feedback">
+            Please select a valid type.
+        </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Update Car</button> <!-- Changed button text -->
+</form>
+
 
                                     </div> <!-- end card-body-->
                                 </div> <!-- end card-->

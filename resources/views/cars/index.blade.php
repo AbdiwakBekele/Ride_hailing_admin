@@ -123,7 +123,7 @@
                     </li>
 
                     <li class="menu-item">
-                        <a  href="#menuIcons" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                        <a href="{{ route('drivers.create') }}" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-briefcase-alt-2"></i></span>
                             <span class="menu-text"> Vehicles </span>
                             {{-- <span class="badge bg-info ms-auto">Hot</span> --}}
@@ -131,7 +131,7 @@
                         <div class="collapse" id="menuExtendedui">
                             <ul class="sub-menu">
                                 <li class="menu-item">
-                                  <a href="{{ route('cars.create') }}"class="menu-link">
+                                     <a href="{{ route('cars.create') }}"class="menu-link">
                                         <span class="menu-text">Range Slider</span>
                                     </a>
                                 </li>
@@ -501,40 +501,42 @@
                                            
                                         </p>
 
-                                       <table id="alternative-page-datatable" class="table dt-responsive nowrap w-100">
+       <table id="alternative-page-datatable" class="table dt-responsive nowrap w-100">
     <thead>
         <tr>
             <th>ID</th>
-            <th>Full Name</th>
-            <th>Phone Number</th>
-            <th>Email</th>
-            <th>License Number</th>
+            <th>Car Name</th>
+            <th>Car Model</th>
+            <th>Year Manufactured</th>
+            <th>Chassis Number</th>
+            <th>Plate Number</th>
+            <th>Color</th>
+            <th>Type</th>
             <th>Status</th>
-            {{-- <th>Created At</th>
-            <th>Updated At</th> --}}
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($drivers as $driver)
+        @foreach($cars as $car)
             <tr>
-                <td>{{ $driver->id }}</td>
-                <td>{{ $driver->full_name }}</td>
-                <td>{{ $driver->phone_number }}</td>
-                <td>{{ $driver->email }}</td>
-                <td>{{ $driver->license_number }}</td>
-                <td>{{ $driver->status }}</td>
-                {{-- <td>{{ $driver->created_at }}</td>
-                <td>{{ $driver->updated_at }}</td> --}}
-                   <td>
-                      <div style="display: flex; gap: 5px;"> <!-- Flexbox for horizontal alignment -->
+                <td>{{ $car->id }}</td>
+                <td>{{ $car->car_name }}</td>
+                <td>{{ $car->car_model }}</td>
+                <td>{{ $car->year_manufactured }}</td>
+                <td>{{ $car->chassis_number }}</td>
+                <td>{{ $car->plate_number }}</td>
+                <td>{{ $car->color }}</td>
+                <td>{{ $car->type }}</td>
+                <td>{{ $car->status }}</td>
+                <td>
+                    <div style="display: flex; gap: 5px;"> <!-- Flexbox for horizontal alignment -->
                         <!-- Edit Button -->
-                        <a href="{{ route('drivers.edit', $driver->id) }}" class="btn btn-primary btn-sm">
+                        <a href="{{ route('cars.edit', $car->id) }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-edit"></i> 
                         </a>
 
                         <!-- Delete Form -->
-                        <form action="{{ route('drivers.destroy', $driver->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this driver?');">
+                        <form action="{{ route('cars.destroy', $car->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this car?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm">
@@ -547,6 +549,7 @@
         @endforeach
     </tbody>
 </table>
+
 
 
                                     </div> <!-- end card body-->

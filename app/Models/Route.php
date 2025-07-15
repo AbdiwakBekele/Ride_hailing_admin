@@ -14,6 +14,8 @@ class Route extends Model
         'fare_amount',
         'distance_km',
         'status',
+        'driver_id',
+        'client_id',
     ];
 
     

@@ -224,7 +224,7 @@
                         <div class="collapse" id="menuExtendedui">
                             <ul class="sub-menu">
                                 <li class="menu-item">
-                                    <a href="components-range-slider.html" class="menu-link">
+                                    <a href="{{ route('cars.create') }}"class="menu-link">
                                         <span class="menu-text">Range Slider</span>
                                     </a>
                                 </li>

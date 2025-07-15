@@ -123,7 +123,7 @@
                     </li>
 
                     <li class="menu-item">
-                        <a  href="#menuIcons" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                        <a href="{{ route('drivers.create') }}" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-briefcase-alt-2"></i></span>
                             <span class="menu-text"> Vehicles </span>
                             {{-- <span class="badge bg-info ms-auto">Hot</span> --}}
@@ -131,7 +131,7 @@
                         <div class="collapse" id="menuExtendedui">
                             <ul class="sub-menu">
                                 <li class="menu-item">
-                                  <a href="{{ route('cars.create') }}"class="menu-link">
+                                     <a href="{{ route('cars.create') }}"class="menu-link">
                                         <span class="menu-text">Range Slider</span>
                                     </a>
                                 </li>
@@ -501,52 +501,52 @@
                                            
                                         </p>
 
-                                       <table id="alternative-page-datatable" class="table dt-responsive nowrap w-100">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Full Name</th>
-            <th>Phone Number</th>
-            <th>Email</th>
-            <th>License Number</th>
-            <th>Status</th>
-            {{-- <th>Created At</th>
-            <th>Updated At</th> --}}
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($drivers as $driver)
-            <tr>
-                <td>{{ $driver->id }}</td>
-                <td>{{ $driver->full_name }}</td>
-                <td>{{ $driver->phone_number }}</td>
-                <td>{{ $driver->email }}</td>
-                <td>{{ $driver->license_number }}</td>
-                <td>{{ $driver->status }}</td>
-                {{-- <td>{{ $driver->created_at }}</td>
-                <td>{{ $driver->updated_at }}</td> --}}
-                   <td>
-                      <div style="display: flex; gap: 5px;"> <!-- Flexbox for horizontal alignment -->
-                        <!-- Edit Button -->
-                        <a href="{{ route('drivers.edit', $driver->id) }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-edit"></i> 
-                        </a>
+       <table id="alternative-page-datatable" class="table dt-responsive nowrap w-100">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Phone Number</th>
+                            <th>Email</th>
+                            <th>Gender</th>
+                            <th>Status</th>
+                            {{-- <th>Created At</th>
+                            <th>Updated At</th> --}}
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($clients as $client)
+                            <tr>
+                                <td>{{ $client->id }}</td>
+                                <td>{{ $client->full_name }}</td>
+                                <td>{{ $client->phone_number }}</td>
+                                <td>{{ $client->email }}</td>
+                                <td>{{ $client->gender }}</td>
+                                <td>{{ $client->status }}</td>
+                                {{-- <td>{{ $client->created_at }}</td>
+                                <td>{{ $client->updated_at }}</td> --}}
+                                <td>
+                                    <div style="display: flex; gap: 5px;"> <!-- Flexbox for horizontal alignment -->
+                                        <!-- Edit Button -->
+                                        <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-edit"></i> 
+                                        </a>
 
-                        <!-- Delete Form -->
-                        <form action="{{ route('drivers.destroy', $driver->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this driver?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash"></i> 
-                            </button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
+                                        <!-- Delete Form -->
+                                        <form action="{{ route('clients.destroy', $client->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this client?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"></i> 
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
 
 
                                     </div> <!-- end card body-->

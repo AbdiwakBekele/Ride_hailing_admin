@@ -53,41 +53,7 @@
                                         <span class="menu-text">Starter</span>
                                     </a>
                                 </li>
-                                {{-- <li class="menu-item">
-                                    <a href="pages-invoice.html" class="menu-link">
-                                        <span class="menu-text">Invoice</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-login.html" class="menu-link">
-                                        <span class="menu-text">Log In</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-register.html" class="menu-link">
-                                        <span class="menu-text">Register</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-recoverpw.html" class="menu-link">
-                                        <span class="menu-text">Recover Password</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-lock-screen.html" class="menu-link">
-                                        <span class="menu-text">Lock Screen</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-404.html" class="menu-link">
-                                        <span class="menu-text">Error 404</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-500.html" class="menu-link">
-                                        <span class="menu-text">Error 500</span>
-                                    </a>
-                                </li> --}}
+                             
                             </ul>
                         </div>
                     </li>
@@ -113,7 +79,7 @@
 
                     <li class="menu-title">Components</li>
 
-                     <li class="menu-item">
+                  <li class="menu-item">
                         <a href="{{ route('clients.create') }}" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-cookie"></i></span>
                             <span class="menu-text"> Client </span>
@@ -123,7 +89,7 @@
                     </li>
 
                     <li class="menu-item">
-                        <a  href="#menuIcons" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                        <a href="{{ route('drivers.create') }}" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-briefcase-alt-2"></i></span>
                             <span class="menu-text"> Vehicles </span>
                             {{-- <span class="badge bg-info ms-auto">Hot</span> --}}
@@ -131,7 +97,7 @@
                         <div class="collapse" id="menuExtendedui">
                             <ul class="sub-menu">
                                 <li class="menu-item">
-                                  <a href="{{ route('cars.create') }}"class="menu-link">
+                                     <a href="{{ route('cars.create') }}"class="menu-link">
                                         <span class="menu-text">Range Slider</span>
                                     </a>
                                 </li>
@@ -468,7 +434,7 @@
             </div>
               <!-- ========== Topbar End ========== -->
 
-        <div class="px-3">
+            <div class="px-3">
 
                     <!-- Start Content-->
                     <div class="container-fluid">
@@ -477,98 +443,102 @@
                         <div class="py-3 py-lg-4">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <h4 class="page-title mb-0">Datatables</h4>
+                                    <h4 class="page-title mb-0">Register Route</h4>
                                 </div>
                                 <div class="col-lg-6">
                                    <div class="d-none d-lg-block">
                                     <ol class="breadcrumb m-0 float-end">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                                        <li class="breadcrumb-item active">Datatables</li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                                        <li class="breadcrumb-item active">Form Validation</li>
                                     </ol>
                                    </div>
                                 </div>
                             </div>
                         </div>
                         <!-- end page title -->
-                       
 
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="header-title"></h4>
-                                        <p class="text-muted font-size-13 mb-4">
-                                           
-                                        </p>
+                                        <p class="sub-header"></p>
 
-                                       <table id="alternative-page-datatable" class="table dt-responsive nowrap w-100">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Full Name</th>
-            <th>Phone Number</th>
-            <th>Email</th>
-            <th>License Number</th>
-            <th>Status</th>
-            {{-- <th>Created At</th>
-            <th>Updated At</th> --}}
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($drivers as $driver)
-            <tr>
-                <td>{{ $driver->id }}</td>
-                <td>{{ $driver->full_name }}</td>
-                <td>{{ $driver->phone_number }}</td>
-                <td>{{ $driver->email }}</td>
-                <td>{{ $driver->license_number }}</td>
-                <td>{{ $driver->status }}</td>
-                {{-- <td>{{ $driver->created_at }}</td>
-                <td>{{ $driver->updated_at }}</td> --}}
-                   <td>
-                      <div style="display: flex; gap: 5px;"> <!-- Flexbox for horizontal alignment -->
-                        <!-- Edit Button -->
-                        <a href="{{ route('drivers.edit', $driver->id) }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-edit"></i> 
-                        </a>
+                                          
+    <form action="{{ route('routes.store') }}" method="POST">
+        @csrf
+        <div class="mb-3">
+            <label for="pickup_location" class="form-label">Pickup Location</label>
+            <input type="text" class="form-control" name="pickup_location" required>
+        </div>
 
-                        <!-- Delete Form -->
-                        <form action="{{ route('drivers.destroy', $driver->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this driver?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash"></i> 
-                            </button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
+        <div class="mb-3">
+            <label for="dropoff_location" class="form-label">Dropoff Location</label>
+            <input type="text" class="form-control" name="dropoff_location" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="pickup_time" class="form-label">Pickup Time</label>
+            <input type="datetime-local" class="form-control" name="pickup_time" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="dropoff_time" class="form-label">Dropoff Time</label>
+            <input type="datetime-local" class="form-control" name="dropoff_time" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="fare_amount" class="form-label">Fare Amount</label>
+            <input type="number" class="form-control" name="fare_amount" step="0.01" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="distance_km" class="form-label">Distance (km)</label>
+            <input type="number" class="form-control" name="distance_km" step="0.01" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="driver_id" class="form-label">Driver</label>
+            <select class="form-select" name="driver_id" required>
+                <option value="" disabled selected>Select Driver</option>
+                <!-- Loop through drivers to populate options -->
+                @foreach($drivers as $driver)
+                    <option value="{{ $driver->id }}">{{ $driver->full_name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="client_id" class="form-label">Client</label>
+            <select class="form-select" name="client_id" required>
+                <option value="" disabled selected>Select Client</option>
+                <!-- Loop through clients to populate options -->
+                @foreach($clients as $client)
+                    <option value="{{ $client->id }}">{{ $client->full_name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-select" name="status" required>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Route</button>
+    </form>
+
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
 
 
-                                    </div> <!-- end card body-->
-                                </div> <!-- end card -->
-                            </div><!-- end col-->
                         </div>
-                        <!-- end row-->
+                        <!-- end row -->
 
-                       
-
-
-                      
-
-
-                      
-
-
-                      
-
-
-                       
-                        
                     </div> <!-- container -->
 
                 </div> <!-- content -->

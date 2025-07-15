@@ -501,40 +501,52 @@
                                            
                                         </p>
 
-                                       <table id="alternative-page-datatable" class="table dt-responsive nowrap w-100">
+                                       <table id="alternative-page-datatable" class="table dt-responsive nowrap w-200">
     <thead>
         <tr>
             <th>ID</th>
-            <th>Full Name</th>
-            <th>Phone Number</th>
-            <th>Email</th>
-            <th>License Number</th>
-            <th>Status</th>
+            <th>driver name</th>
+            <th>client name</th>
+            <th>pick location</th>
+            <th>dropo location</th>
+            <th>pick time</th>
+            <th>drop time</th>
+            <th> amount</th>
+            <th>distance</th>
+            <th>status</th>
             {{-- <th>Created At</th>
             <th>Updated At</th> --}}
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($drivers as $driver)
-            <tr>
-                <td>{{ $driver->id }}</td>
-                <td>{{ $driver->full_name }}</td>
-                <td>{{ $driver->phone_number }}</td>
-                <td>{{ $driver->email }}</td>
-                <td>{{ $driver->license_number }}</td>
-                <td>{{ $driver->status }}</td>
+        
+             
+        @foreach($routes as $route)
+        <tr>
+            <td>{{ $route->id }}</td>
+            <td>{{ $route->driver->full_name ?? 'N/A' }}</td>
+            <td>{{ $route->client->full_name ?? 'N/A' }}</td>
+            <td>{{ $route->pickup_location }}</td>
+            <td>{{ $route->dropoff_location }}</td>
+            <td>{{ $route->pickup_time }}</td>
+            <td>{{ $route->dropoff_time }}</td>
+            <td>{{ $route->fare_amount }}</td>
+            <td>{{ $route->distance_km }}</td>
+            <td>{{ $route->status }}</td>
+      
+    
                 {{-- <td>{{ $driver->created_at }}</td>
                 <td>{{ $driver->updated_at }}</td> --}}
                    <td>
                       <div style="display: flex; gap: 5px;"> <!-- Flexbox for horizontal alignment -->
                         <!-- Edit Button -->
-                        <a href="{{ route('drivers.edit', $driver->id) }}" class="btn btn-primary btn-sm">
+                        <a href="{{ route('routes.edit', $route->id) }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-edit"></i> 
                         </a>
 
                         <!-- Delete Form -->
-                        <form action="{{ route('drivers.destroy', $driver->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this driver?');">
+                        <form action="{{ route('routes.destroy', $route->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this driver?');">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm">

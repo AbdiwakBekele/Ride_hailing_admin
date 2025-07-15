@@ -53,41 +53,7 @@
                                         <span class="menu-text">Starter</span>
                                     </a>
                                 </li>
-                                {{-- <li class="menu-item">
-                                    <a href="pages-invoice.html" class="menu-link">
-                                        <span class="menu-text">Invoice</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-login.html" class="menu-link">
-                                        <span class="menu-text">Log In</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-register.html" class="menu-link">
-                                        <span class="menu-text">Register</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-recoverpw.html" class="menu-link">
-                                        <span class="menu-text">Recover Password</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-lock-screen.html" class="menu-link">
-                                        <span class="menu-text">Lock Screen</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-404.html" class="menu-link">
-                                        <span class="menu-text">Error 404</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-500.html" class="menu-link">
-                                        <span class="menu-text">Error 500</span>
-                                    </a>
-                                </li> --}}
+                             
                             </ul>
                         </div>
                     </li>
@@ -113,7 +79,7 @@
 
                     <li class="menu-title">Components</li>
 
-                     <li class="menu-item">
+                    <li class="menu-item">
                         <a href="{{ route('clients.create') }}" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-cookie"></i></span>
                             <span class="menu-text"> Client </span>
@@ -123,7 +89,7 @@
                     </li>
 
                     <li class="menu-item">
-                        <a  href="#menuIcons" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                        <a href="{{ route('drivers.create') }}" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-briefcase-alt-2"></i></span>
                             <span class="menu-text"> Vehicles </span>
                             {{-- <span class="badge bg-info ms-auto">Hot</span> --}}
@@ -131,7 +97,7 @@
                         <div class="collapse" id="menuExtendedui">
                             <ul class="sub-menu">
                                 <li class="menu-item">
-                                  <a href="{{ route('cars.create') }}"class="menu-link">
+                                   <a href="{{ route('cars.create') }}"class="menu-link">
                                         <span class="menu-text">Range Slider</span>
                                     </a>
                                 </li>
@@ -468,7 +434,7 @@
             </div>
               <!-- ========== Topbar End ========== -->
 
-        <div class="px-3">
+            <div class="px-3">
 
                     <!-- Start Content-->
                     <div class="container-fluid">
@@ -477,98 +443,116 @@
                         <div class="py-3 py-lg-4">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <h4 class="page-title mb-0">Datatables</h4>
+                                    <h4 class="page-title mb-0">Register driver</h4>
                                 </div>
                                 <div class="col-lg-6">
                                    <div class="d-none d-lg-block">
                                     <ol class="breadcrumb m-0 float-end">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                                        <li class="breadcrumb-item active">Datatables</li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
+                                        <li class="breadcrumb-item active">Form Validation</li>
                                     </ol>
                                    </div>
                                 </div>
                             </div>
                         </div>
                         <!-- end page title -->
-                       
 
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="header-title"></h4>
-                                        <p class="text-muted font-size-13 mb-4">
-                                           
-                                        </p>
+                                        <p class="sub-header"></p>
+<form class="needs-validation" method="POST" action="{{ route('clients.store') }}" novalidate>
+    @csrf 
+    <div class="mb-3">
+        <label for="validationCustom01" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="validationCustom01" placeholder="Full name" name="full_name" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="validationCustom02" class="form-label">Phone Number</label>
+        <input type="text" class="form-control" id="validationCustom02" placeholder="Phone Number" name="phone_number" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="validationCustom03" class="form-label">Email</label>
+        <input type="email" class="form-control" id="validationCustom03" placeholder="Email" name="email" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div>
+    
+    <div class="mb-3">
+        <label for="gender" class="form-label">Gender</label>
+        <select class="form-select" id="gender" name="gender" required>
+            <option value="" disabled selected>Select gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+        <div class="invalid-feedback">
+            Please select a valid gender.
+        </div>
+    </div>
+    <div class="mb-3">
+    <label for="address" class="form-label">Address</label>
+    <input type="text" class="form-control" id="address" placeholder="Address" name="address" required>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+</div>
 
-                                       <table id="alternative-page-datatable" class="table dt-responsive nowrap w-100">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Full Name</th>
-            <th>Phone Number</th>
-            <th>Email</th>
-            <th>License Number</th>
-            <th>Status</th>
-            {{-- <th>Created At</th>
-            <th>Updated At</th> --}}
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($drivers as $driver)
-            <tr>
-                <td>{{ $driver->id }}</td>
-                <td>{{ $driver->full_name }}</td>
-                <td>{{ $driver->phone_number }}</td>
-                <td>{{ $driver->email }}</td>
-                <td>{{ $driver->license_number }}</td>
-                <td>{{ $driver->status }}</td>
-                {{-- <td>{{ $driver->created_at }}</td>
-                <td>{{ $driver->updated_at }}</td> --}}
-                   <td>
-                      <div style="display: flex; gap: 5px;"> <!-- Flexbox for horizontal alignment -->
-                        <!-- Edit Button -->
-                        <a href="{{ route('drivers.edit', $driver->id) }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-edit"></i> 
-                        </a>
-
-                        <!-- Delete Form -->
-                        <form action="{{ route('drivers.destroy', $driver->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this driver?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash"></i> 
-                            </button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
+<div class="mb-3">
+    <label for="registration_date" class="form-label">Registration Date</label>
+    <input type="date" class="form-control" id="registration_date" name="registration_date" required>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+</div>
 
 
-                                    </div> <!-- end card body-->
-                                </div> <!-- end card -->
-                            </div><!-- end col-->
+    <div class="mb-3">
+        <label for="status" class="form-label">Status</label>
+        <select class="form-select" id="status" name="status" required>
+            <option value="" disabled selected>Select status</option>
+            <option value="Active">Active</option>
+            <option value="Banned">Banned</option>
+            <option value="Pending">Pending</option>
+        </select>
+        <div class="invalid-feedback">
+            Please select a valid status.
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+            <label class="form-check-label" for="invalidCheck">
+                Agree to terms and conditions
+            </label>
+            <div class="invalid-feedback">
+                You must agree before submitting.
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit form</button>
+</form>
+
+
+                                    </div> <!-- end card-body-->
+                                </div> <!-- end card-->
+                            </div> <!-- end col-->
+
+
+                           
                         </div>
-                        <!-- end row-->
+                        <!-- end row -->
 
-                       
-
-
-                      
-
-
-                      
-
-
-                      
-
-
-                       
-                        
                     </div> <!-- container -->
 
                 </div> <!-- content -->

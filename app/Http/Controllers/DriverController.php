@@ -56,13 +56,12 @@ class DriverController extends Controller
         'status' => 'required|in:Active,Inactive,Suspended',
     ]);
 
-    // Update the driver with validated data
+   
     $driver->update($request->all());
 
-    // Return a response (could be a redirect or JSON response)
+    
     return redirect()->route('drivers.index')->with('success', 'Driver updated successfully!');
-    // Or for API response:
-    // return response()->json(['message' => 'Driver updated successfully!', 'driver' => $driver]);
+   
 }
 
     public function destroy($id)
@@ -70,7 +69,7 @@ class DriverController extends Controller
     // Find the driver or fail
     $driver = Driver::findOrFail($id);
     
-    // Delete the driver
+    
     $driver->delete();
 
     // Redirect back to the index with a success message

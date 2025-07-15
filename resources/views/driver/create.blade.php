@@ -79,22 +79,13 @@
 
                     <li class="menu-title">Components</li>
 
-                    <li class="menu-item">
-                        <a href="#menuComponentsui" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                  <li class="menu-item">
+                        <a href="{{ route('clients.create') }}" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-cookie"></i></span>
-                            <span class="menu-text"> Bookings </span>
+                            <span class="menu-text"> Client </span>
                             {{-- <span class="menu-arrow"></span> --}}
                         </a>
-                        <div class="collapse" id="menuComponentsui">
-                            <ul class="sub-menu">
-                                <li class="menu-item">
-                                    <a href="ui-alerts.html" class="menu-link">
-                                        <span class="menu-text">Alerts</span>
-                                    </a>
-                                </li>
-                              
-                            </ul>
-                        </div>
+                       
                     </li>
 
                     <li class="menu-item">
@@ -106,7 +97,7 @@
                         <div class="collapse" id="menuExtendedui">
                             <ul class="sub-menu">
                                 <li class="menu-item">
-                                    <a href="components-range-slider.html" class="menu-link">
+                                     <a href="{{ route('cars.create') }}"class="menu-link">
                                         <span class="menu-text">Range Slider</span>
                                     </a>
                                 </li>
