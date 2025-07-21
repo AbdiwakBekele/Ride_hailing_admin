@@ -22,4 +22,8 @@ class Driver extends Model
     public function route(){
         return $this->hasOne(Route::class,'driver_id');
     }
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
 }

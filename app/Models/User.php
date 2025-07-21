@@ -22,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone_number',
+        'user_type',
     ];
 
     /**
@@ -46,4 +48,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // app/Models/User.php
+public function driver()
+{
+    return $this->hasOne(Driver::class);
+}
+
 }

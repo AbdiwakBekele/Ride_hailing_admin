@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->unique();
             $table->string('full_name');
             $table->string('phone_number');
             $table->string('email')->nullable();

@@ -20,5 +20,7 @@ Route::apiResource('drivers', ApiDriverController::class);
 Route::apiResource('routes', ApiRouteController::class);
 Route::apiResource('clients', ApiClientController::class);
 
-
+Route::middleware(['driver'])->group(function () {}
+  Route::apiResource('drivers', ApiDriverController::class);
+);
 //Test

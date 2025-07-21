@@ -28,7 +28,7 @@ class ApiDriverController extends Controller
         $validatedData = $request->validate([
             'full_name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:15',
-            'email' => 'nullable|email',
+            'email' => 'required|email|unique:users,email',
             'license_number' => 'required|string|max:50',
             'status' => 'required|in:Active,Inactive,Suspended',
         ]);
