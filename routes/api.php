@@ -16,11 +16,18 @@ Route::post('/login',[UserAuthController::class, 'login_post']);
 Route::post('/register',[UserAuthController::class, 'register']);
 Route::post('/logout',[UserAuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::apiResource('cars', ApiCarController::class);
-Route::apiResource('drivers', ApiDriverController::class);
+Route::post('/drivers/register', [ApiDriverController::class, 'register']);
+Route::post('/drivers/login', [ApiDriverController::class, 'login']);
+Route::post('/drivers/logout', [ApiDriverController::class, 'logout']);
+Route::apiResource('drivers', ApiDriverController::class)->except(['store']);
 Route::apiResource('routes', ApiRouteController::class);
-Route::apiResource('clients', ApiClientController::class);
+Route::apiResource('clients', ApiClientController::class)->except(['store']);
+Route::post('/clients/register', [ApiDriverController::class, 'register']);
+Route::post('/clients/login', [ApiDriverController::class, 'login']);
+Route::post('/clients/logout', [ApiDriverController::class, 'logout']);
 
-Route::middleware(['driver'])->group(function () {}
-  Route::apiResource('drivers', ApiDriverController::class);
-);
+
+    // Route::apiResource('drivers', ApiDriverController::class);
+
+ 
 //Test

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->unique();
             $table->string('full_name');
             $table->string('phone_number');
+            $table->string('password');
             $table->string('email')->nullable();
             $table->string('license_number');
             $table->enum('status', ['Active', 'Inactive', 'Suspended']);

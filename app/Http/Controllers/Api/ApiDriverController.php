@@ -22,19 +22,61 @@ class ApiDriverController extends Controller
         return response()->json(['success' => true, 'data' => $driver], 200);
     }
 
-    // Create a new driver
-    public function store(Request $request)
+     public function login(Request $request)
     {
-        $validatedData = $request->validate([
-            'full_name' => 'required|string|max:255',
+        // Logic for handling POST request for login
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        if(Auth::attempt($credentials)){
+            $driver = Driver::where('email', $request->email)->first();
+            $token = $driver->createToken("token");
+           return response()->json([
+    "ok" => true,
+    'driver' => $driver,
+    'token' => $token->plainTextToken
+], 200);
+ }
+         return response()->json(["ok" => false, "message" => "Invalid credentials"], 401);
+    }
+
+    public function register(Request $request)
+{
+    $validated = $request->validate([
+           'full_name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email',
             'license_number' => 'required|string|max:50',
             'status' => 'required|in:Active,Inactive,Suspended',
-        ]);
-        $driver = Driver::create($validatedData);
-        return response()->json(['success' => true, 'message' => 'Driver created successfully', 'data' => $driver], 201);
-    }
+            'password' => 'required|string|min:8|confirmed'
+    ]);
+
+    $driver = Driver::create([
+        ...$validated,
+        'password' => Hash::make($validated['password'])
+    ]);
+return response()->json(['success' => true, 'message' => 'Driver created successfully', 'data' => $driver], 201);
+    // return response()->json([
+    //     'success' => true,
+    //     'token' => $driver->createToken('driver-token')->plainTextToken,
+    //     'driver' => $driver->makeHidden(['password', 'remember_token'])
+    // ], 201);
+}
+
+    // Create a new driver
+    // public function store(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         'full_name' => 'required|string|max:255',
+    //         'phone_number' => 'required|string|max:15',
+    //         'email' => 'required|email|unique:users,email',
+    //         'license_number' => 'required|string|max:50',
+    //         'status' => 'required|in:Active,Inactive,Suspended',
+    //     ]);
+    //     $driver = Driver::create($validatedData);
+    //     return response()->json(['success' => true, 'message' => 'Driver created successfully', 'data' => $driver], 201);
+    // }
 
     // Update an existing driver
     public function update(Request $request, $id)
@@ -47,7 +89,13 @@ class ApiDriverController extends Controller
             'email' => 'required|email|unique:drivers,email,' . $driver->id,
             'license_number' => 'required|string|max:50',
             'status' => 'required|in:Active,Inactive,Suspended',
+            'password' => 'sometimes|required_with:password_confirmation|string|min:8|confirmed'
         ]);
+         if ($request->filled('password')) {
+        $validatedData['password'] = Hash::make($validatedData['password']);
+    } else {
+        unset($validatedData['password']);
+    }
 
         $driver->update($validatedData);
 
@@ -61,5 +109,14 @@ class ApiDriverController extends Controller
         $driver->delete();
 
         return response()->json(['success' => true, 'message' => 'Driver deleted successfully'], 200);
+    }
+
+    public  function logout()
+    {
+        $user = auth()->user();
+           $user->tokens()->delete();
+            // $request->user()->currentAccessToken()->delete();
+            return response()->json(["ok" => true, "message" => "Logged out successfully"]);
+
     }
 }

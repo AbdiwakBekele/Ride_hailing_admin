@@ -36,28 +36,22 @@ class UserAuthController extends Controller
         $validatedData = $request->validate([
             'full_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'phone_number' => 'required|string|max:15',
+           
             'password' => 'required',
-            'user_type' => 'sometimes|in:user,driver'
+            
         ]);
         $user = User::create([
             'full_name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'password' => bcrypt($validatedData['password']),
-            'phone_number' => $validatedData['phone_number'],
-            'user_type' => $validated['user_type'] ?? 'user'
+           
         ]);
           // Create driver profile if needed
-    if ($user->user_type === 'driver') {
-        Driver::create([
-            'user_id' => $user->id,
-            'license_number' => $request->license_number,
-            'status' => 'pending'
-        ]);
-    }
+  
         $token = $user->createToken("token");
         return response()->json(["ok" => true, 'user' => $user, 'token' => $token->plainTextToken, "status" => 201]);
     }
+
     public  function logout()
     {
         $user = auth()->user();

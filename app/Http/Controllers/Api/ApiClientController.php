@@ -17,28 +17,73 @@ class ApiClientController extends Controller
 
     // Show the form for creating a new client
     // For API, typically not used. You can omit or just return a message
-    public function create()
+    // public function create()
+    // {
+    //     return response()->json(['success' => true, 'message' => 'Use POST /clients to create a new client'], 200);
+    // }
+
+      public function login(Request $request)
     {
-        return response()->json(['success' => true, 'message' => 'Use POST /clients to create a new client'], 200);
+        // Logic for handling POST request for login
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        if(Auth::attempt($credentials)){
+            $client = Client::where('email', $request->email)->first();
+            $token = $client->createToken("token");
+           return response()->json([
+    "ok" => true,
+    'client' => $client,
+    'token' => $token->plainTextToken
+], 200);
+ }
+         return response()->json(["ok" => false, "message" => "Invalid credentials"], 401);
     }
+
+    public function register(Request $request)
+{
+    $validated = $request->validate([
+        'full_name' => 'required|string|max:255',
+        'phone_number' => 'required|string|max:15|unique:clients',
+        'email' => 'required|email|unique:clients',
+        'password' => 'required|string|min:8|confirmed',
+        'gender' => 'required|in:Male,Female,Other',
+         'status' => 'required|in:Active,Inactive,Suspended',
+        'address' => 'required|string|max:500'
+    ]);
+
+    $client = Client::create([
+        ...$validated,
+        'password' => Hash::make($validated['password']),
+        'registration_date' => now()
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'token' => $client->createToken('client-token')->plainTextToken,
+        'client' => $client->makeHidden(['password', 'created_at', 'updated_at'])
+    ], 201);
+}
+
 
     // Store a newly created client in storage
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:15',
-            'email' => 'required|email|unique:clients,email',
-            'gender' => 'required|in:Male,Female,Other',
-            'address' => 'required|string',
-            'registration_date' => 'required|date',
-            'status' => 'required|in:Active,Banned,Pending',
-        ]);
+    // public function store(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         'full_name' => 'required|string|max:255',
+    //         'phone_number' => 'required|string|max:15',
+    //         'email' => 'required|email|unique:clients,email',
+    //         'gender' => 'required|in:Male,Female,Other',
+    //         'address' => 'required|string',
+    //         'registration_date' => 'required|date',
+    //         'status' => 'required|in:Active,Banned,Pending',
+    //     ]);
 
-        $client = Client::create($validatedData);
+    //     $client = Client::create($validatedData);
 
-        return response()->json(['success' => true, 'message' => 'Client created successfully!', 'data' => $client], 201);
-    }
+    //     return response()->json(['success' => true, 'message' => 'Client created successfully!', 'data' => $client], 201);
+    // }
 
     // Show the specific client
     public function show($id)
@@ -67,7 +112,13 @@ class ApiClientController extends Controller
             'address' => 'sometimes|required|string',
             'registration_date' => 'sometimes|required|date',
             'status' => 'sometimes|required|in:Active,Banned,Pending',
+             'password' => 'sometimes|required_with:password_confirmation|string|min:8|confirmed'
         ]);
+         if ($request->filled('password')) {
+        $validatedData['password'] = Hash::make($validatedData['password']);
+    } else {
+        unset($validatedData['password']);
+    }
 
         $client->update($validatedData);
 
