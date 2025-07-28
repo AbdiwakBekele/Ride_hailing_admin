@@ -50,13 +50,22 @@ class ApiClientController extends Controller
         'password' => 'required|string|min:8|confirmed',
         'gender' => 'required|in:Male,Female,Other',
          'status' => 'required|in:Active,Inactive,Suspended',
-        'address' => 'required|string|max:500'
+        'address' => 'required|string|max:500',
+        'registration_date' => 'required'
+
     ]);
+    // dd($validated);
 
     $client = Client::create([
-        ...$validated,
-        'password' => Hash::make($validated['password']),
-        'registration_date' => now()
+        'full_name' => $validated['full_name'],
+        'phone_number' => $validated['phone_number'],
+        'gender' => $validated['gender'],
+        'email' => $validated['email'],
+        'password' => bcrypt($validated['password']),
+        'status' => $validated['status'],
+        'address' => $validated['address'],
+        'registration_date' => $validated['registration_date'],
+
     ]);
 
     return response()->json([
@@ -115,7 +124,7 @@ class ApiClientController extends Controller
              'password' => 'sometimes|required_with:password_confirmation|string|min:8|confirmed'
         ]);
          if ($request->filled('password')) {
-        $validatedData['password'] = Hash::make($validatedData['password']);
+        $validatedData['password'] = bcrypt($validatedData['password']);
     } else {
         unset($validatedData['password']);
     }

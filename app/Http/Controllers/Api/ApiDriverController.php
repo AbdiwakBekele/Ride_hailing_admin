@@ -53,8 +53,12 @@ class ApiDriverController extends Controller
     ]);
 
     $driver = Driver::create([
-        ...$validated,
-        'password' => Hash::make($validated['password'])
+         'full_name' => $validated['full_name'],
+        'phone_number' => $validated['phone_number'],
+        'email' => $validated['email'],
+        'password' => bcrypt($validated['password']),
+        'status' => $validated['status'],
+        'license_number' => $validated['license_number'],
     ]);
 return response()->json(['success' => true, 'message' => 'Driver created successfully', 'data' => $driver], 201);
     // return response()->json([
@@ -92,7 +96,7 @@ return response()->json(['success' => true, 'message' => 'Driver created success
             'password' => 'sometimes|required_with:password_confirmation|string|min:8|confirmed'
         ]);
          if ($request->filled('password')) {
-        $validatedData['password'] = Hash::make($validatedData['password']);
+        $validatedData['password'] = bcrypt($validatedData['password']);
     } else {
         unset($validatedData['password']);
     }

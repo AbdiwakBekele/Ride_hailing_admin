@@ -28,6 +28,7 @@ class ClientController extends Controller
             'full_name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:15',
             'email' => 'required|email|unique:clients,email',
+            'password' => 'required|string|min:8|confirmed',
             'gender' => 'required|in:Male,Female,Other',
             'address' => 'required|string',
             'registration_date' => 'required|date',
