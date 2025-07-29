@@ -1,14 +1,17 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens; 
 
-class Driver extends Model
+class Driver extends Authenticatable
 {
+    use HasApiTokens;
     protected $fillable =[
         'full_name',
         'phone_number',
+        'password',
         'email',
         'license_number',
         'status',

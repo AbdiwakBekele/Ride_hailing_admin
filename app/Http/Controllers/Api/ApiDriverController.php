@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Driver;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApiDriverController extends Controller
 {
@@ -29,7 +30,7 @@ class ApiDriverController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        if(Auth::attempt($credentials)){
+        if(Auth::guard('driver')->attempt($credentials)){
             $driver = Driver::where('email', $request->email)->first();
             $token = $driver->createToken("token");
            return response()->json([

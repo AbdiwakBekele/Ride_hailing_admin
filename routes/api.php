@@ -21,10 +21,10 @@ Route::post('/drivers/login', [ApiDriverController::class, 'login']);
 Route::post('/drivers/logout', [ApiDriverController::class, 'logout']);
 Route::apiResource('drivers', ApiDriverController::class)->except(['store']);
 Route::apiResource('routes', ApiRouteController::class);
-Route::apiResource('clients', ApiClientController::class)->except(['store']);
-Route::post('/clients/register', [ApiClientController::class, 'register']);
+Route::apiResource('clients', ApiClientController::class);
+Route::post('/clients/register', [ApiClientController::class, 'register']) ->withoutMiddleware(['web']);;
 Route::post('/clients/login', [ApiClientController::class, 'login']);
-Route::post('/clients/logout', [ApiClientController::class, 'logout']);
+Route::post('/clients/logout', [ApiClientController::class, 'logout'])->middleware('auth:sanctum');
 
 
     // Route::apiResource('drivers', ApiDriverController::class);

@@ -40,6 +40,15 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+         'client' => [  // Custom guard name
+        'driver' => 'session',
+        'provider' => 'clients', // Must match provider key
+    ],
+         'driver' => [  // Custom guard name
+        'driver' => 'session',
+        'provider' => 'drivers', // Must match provider key
+    ],
+
     ],
 
     /*
@@ -64,6 +73,10 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
+        'drivers' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Driver::class, // No env() here
+    ],
 
         // 'users' => [
         //     'driver' => 'database',
