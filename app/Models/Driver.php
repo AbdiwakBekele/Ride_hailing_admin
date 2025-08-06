@@ -13,8 +13,21 @@ class Driver extends Authenticatable
         'phone_number',
         'password',
         'email',
-        'license_number',
         'status',
+        'vehicle_type',
+        'is_available',
+        'national_id_url',
+        'national_id_status',
+        'national_id_number',
+        'license_url',
+        'license_status',
+        'license_number',
+        'insurance_url',
+        'insurance_status',
+        'picture_url',
+        'picture_statu',
+        'location'
+        
         
 
     ];

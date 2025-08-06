@@ -27,7 +27,21 @@ Route::post('/clients/login', [ApiClientController::class, 'login']);
 Route::post('/clients/logout', [ApiClientController::class, 'logout'])->middleware('auth:sanctum');
 
 
-    // Route::apiResource('drivers', ApiDriverController::class);
 
+// Document Upload Routes
+Route::post('/drivers/documents/national-id', [ApiDriverController::class, 'uploadNationalId']);
+Route::post('/drivers/documents/license', [ApiDriverController::class, 'uploadLicense']);
+Route::post('/drivers/documents/insurance', [ApiDriverController::class, 'uploadInsurance']);
+Route::post('/drivers/documents/picture', [ApiDriverController::class, 'uploadPicture']);
+
+// Toggle Driver Status Route
+Route::post('/drivers/status', [ApiDriverController::class, 'toggleStatus']);
+
+
+// Request Ride Route
+Route::post('/rides/request', [ApiRouteController::class, 'requestRide']);
+
+// estimate fare
+Route::post('/rides/estimate', [ApiRouteController::class, 'estimateFare']);
  
 //Test

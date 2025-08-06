@@ -8,12 +8,13 @@ class Route extends Model
 {
     protected $fillable =[
         'pickup_location',
-        'dropoff_location',
-        'pickup_time',
-        'dropoff_time',
+        'destination',
         'fare_amount',
         'distance_km',
         'status',
+        'car_type',
+        'fare',
+        'duration_min',
         'driver_id',
         'client_id',
     ];

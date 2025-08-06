@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Models\Driver;
 use Illuminate\Http\Request;
@@ -48,8 +48,7 @@ class ApiDriverController extends Controller
            'full_name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email',
-            'license_number' => 'required|string|max:50',
-            'status' => 'required|in:Active,Inactive,Suspended',
+             'vehicle_type' => 'required|string',
             'password' => 'required|string|min:8|confirmed'
     ]);
 
@@ -58,8 +57,7 @@ class ApiDriverController extends Controller
         'phone_number' => $validated['phone_number'],
         'email' => $validated['email'],
         'password' => bcrypt($validated['password']),
-        'status' => $validated['status'],
-        'license_number' => $validated['license_number'],
+        'vehicle_type' => $validated['vehicle_type'],
     ]);
 return response()->json(['success' => true, 'message' => 'Driver created successfully', 'data' => $driver], 201);
     // return response()->json([
@@ -69,19 +67,110 @@ return response()->json(['success' => true, 'message' => 'Driver created success
     // ], 201);
 }
 
-    // Create a new driver
-    // public function store(Request $request)
-    // {
-    //     $validatedData = $request->validate([
-    //         'full_name' => 'required|string|max:255',
-    //         'phone_number' => 'required|string|max:15',
-    //         'email' => 'required|email|unique:users,email',
-    //         'license_number' => 'required|string|max:50',
-    //         'status' => 'required|in:Active,Inactive,Suspended',
-    //     ]);
-    //     $driver = Driver::create($validatedData);
-    //     return response()->json(['success' => true, 'message' => 'Driver created successfully', 'data' => $driver], 201);
-    // }
+// Upload National ID
+public function uploadNationalId(Request $request)
+{
+    $validated = $request->validate([
+        'driver_id' => 'required|exists:drivers,id',
+        'national_id.file_name' => 'required|string',
+        'national_id.file_data' => 'required|string',
+        'national_id.id_number' => 'required|string',
+        'national_id.expiry_date' => 'required|date',
+    ]);
+
+    // Save the national ID file
+    $filePath = $this->uploadBase64File($validated['national_id']['file_data'], $validated['national_id']['file_name']);
+    
+    // Update driver record with the national ID URL
+    $driver = Driver::find($validated['driver_id']);
+    $driver->national_id_url = $filePath;
+    $driver->save();
+
+    return response()->json(['message' => 'National ID uploaded successfully!']);
+}
+
+// Upload License
+public function uploadLicense(Request $request)
+{
+    $validated = $request->validate([
+        'driver_id' => 'required|exists:drivers,id',
+        'driver_license.file_name' => 'required|string',
+        'driver_license.file_data' => 'required|string',
+        'driver_license.license_number' => 'required|string',
+        'driver_license.issue_date' => 'required|date',
+        'driver_license.expiry_date' => 'required|date',
+    ]);
+
+    // Save the driver license file
+    $filePath = $this->uploadBase64File($validated['driver_license']['file_data'], $validated['driver_license']['file_name']);
+    
+    // Update driver record with the license URL
+    $driver = Driver::find($validated['driver_id']);
+    $driver->license_url = $filePath;
+    $driver->save();
+
+    return response()->json(['message' => 'Driver license uploaded successfully!']);
+}
+
+// Upload Insurance
+public function uploadInsurance(Request $request)
+{
+    $validated = $request->validate([
+        'driver_id' => 'required|exists:drivers,id',
+        'insurance.file_name' => 'required|string',
+        'insurance.file_data' => 'required|string',
+        'insurance.policy_number' => 'required|string',
+        'insurance.provider' => 'required|string',
+        'insurance.expiry_date' => 'required|date',
+    ]);
+
+    // Save the insurance file
+    $filePath = $this->uploadBase64File($validated['insurance']['file_data'], $validated['insurance']['file_name']);
+    
+    // Update driver record with the insurance URL
+    $driver = Driver::find($validated['driver_id']);
+    $driver->insurance_url = $filePath;
+    $driver->save();
+
+    return response()->json(['message' => 'Insurance uploaded successfully!']);
+}
+
+// Upload Picture
+public function uploadPicture(Request $request)
+{
+    $validated = $request->validate([
+        'driver_id' => 'required|exists:drivers,id',
+        'picture.file_name' => 'required|string',
+        'picture.file_data' => 'required|string',
+    ]);
+
+    // Save the driver picture file
+    $filePath = $this->uploadBase64File($validated['picture']['file_data'], $validated['picture']['file_name']);
+    
+    // Update driver record with the picture URL
+    $driver = Driver::find($validated['driver_id']);
+    $driver->picture_url = $filePath;
+    $driver->save();
+
+    return response()->json(['message' => 'Driver picture uploaded successfully!']);
+}
+
+// Toggle Driver Status
+public function toggleStatus(Request $request)
+{
+    $validated = $request->validate([
+        'driver_id' => 'required|exists:drivers,id',
+        'is_available' => 'required|boolean',
+    ]);
+
+    // Update driver availability status
+    $driver = Driver::find($validated['driver_id']);
+    $driver->is_available = $validated['is_available'];
+    $driver->save();
+
+    return response()->json(['message' => 'Driver status updated successfully!']);
+}
+  
 
     // Update an existing driver
     public function update(Request $request, $id)
@@ -124,4 +213,21 @@ return response()->json(['success' => true, 'message' => 'Driver created success
             return response()->json(["ok" => true, "message" => "Logged out successfully"]);
 
     }
+
+
+    // private  function for base64file
+
+    private function uploadBase64File($base64Data, $fileName)
+{
+    // Decode the base64 data
+    $fileData = base64_decode($base64Data);
+    
+    // Define the local storage path
+    $path = 'documents/' . $fileName; // Adjust this to your desired structure
+    
+    // Store the file locally
+    Storage::disk('local')->put($path, $fileData);
+
+    return Storage::url($path); // Returns the URL for accessing the file
+}
 }
