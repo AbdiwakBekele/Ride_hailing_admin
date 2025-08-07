@@ -15,8 +15,8 @@ return new class extends Migration
           $table->id(); // Auto-incrementing ID
 $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
 $table->foreignId('driver_id')->constrained('drivers')->onDelete('cascade');
-$table->point('pickup_location'); // Pickup location as a POINT
-$table->point('destination'); // Destination as a POINT
+$table->geometry('pickup_location'); // Pickup location as a POINT
+$table->geometry('destination'); // Destination as a POINT
 $table->string('car_type'); // Car type
 $table->enum('status', ['Completed', 'Cancelled', 'In Progress'])->default('In Progress');
 $table->decimal('fare', 8, 2); // Fare with 2 decimal places

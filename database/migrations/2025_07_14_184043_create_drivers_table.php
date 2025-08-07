@@ -20,7 +20,7 @@ return new class extends Migration
      
     $table->enum('vehicle_type', ['sedan', 'suv', 'truck', 'van']); // Add other vehicle types as needed
     $table->boolean('is_available')->default(false);
-    $table->point('location')->nullable(); // Requires spatial support
+    $table->geometry('location')->nullable(); // Requires spatial support
     $table->string('national_id_url')->default(null);
     $table->enum('national_id_status', ['pending', 'verified', 'rejected'])->default('pending');
     $table->string('national_id_number')->unique()->default(null);
