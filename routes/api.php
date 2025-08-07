@@ -43,5 +43,17 @@ Route::post('/rides/request', [ApiRouteController::class, 'requestRide']);
 
 // estimate fare
 Route::post('/rides/estimate', [ApiRouteController::class, 'estimateFare']);
+
+// accept request
+
+Route::post('/rides/accept',[ApiRouteController::class,'acceptRide']);
+
+// Update Driver Location Route
+Route::post('/rides/location/update', [ApiDriverController::class, 'updateDriverLocation']);
+
+Route::post('/rides/start', [ApiDriverController::class, 'startRide']);
+
+// Complete Ride Route
+Route::post('/rides/complete', [ApiDriverController::class, 'completeRide']);
  
 //Test
