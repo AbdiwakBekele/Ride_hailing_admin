@@ -26,7 +26,7 @@
                     <li class="menu-item">
                         <a href="index.html" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-home-smile"></i></span>
-                            <span class="menu-text"> Dashboards </span>
+                            <span class="menu-text">Dashboards </span>
                             <span class="badge bg-primary rounded ms-auto">01</span>
                         </a>
                     </li>
@@ -526,14 +526,14 @@
                                                 </div>
                                             </div> --}}
                                             <div class="mb-3">
-                                                <label for="validationCustom03" class="form-label">License Number</label>
-                                                <input type="text" class="form-control" id="validationCustom03" placeholder="License Number" name="license_number" required>
+                                                <label for="validationCustom03" class="form-label">Vehicle Type</label>
+                                                <input type="text" class="form-control" id="validationCustom03" placeholder="Vehicle Type" name="vehicle_type" required>
                                                 <div class="invalid-feedback">
-                                                    Please provide a valid License Number.
+                                                    Please provide a valid vehicle type.
                                                 </div>
                                             </div>
                                            <div class="mb-3">
-                                           <label for="status" class="form-label">Status</label>
+                                           <!-- <label for="status" class="form-label">Status</label>
                                                        <select class="form-select" id="status" name="status" required>
                                                             <option value="" disabled selected>Select status</option>
                                                                <option value="Active">Active</option>
@@ -543,15 +543,15 @@
                                                    <div class="invalid-feedback">
                                                   Please select a valid status.
                                                      </div>
-                                                     </div>
+                                                     </div> -->
 
-                                            {{-- <div class="mb-3">
-                                                <label for="validationCustom05" class="form-label">Zip</label>
-                                                <input type="text" class="form-control" id="validationCustom05" placeholder="Zip" required>
+                                             <div class="mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="text" class="form-control" id="password" placeholder="Password" name="password" required>
                                                 <div class="invalid-feedback">
-                                                    Please provide a valid zip.
+                                                    Please provide a valid password.
                                                 </div>
-                                            </div> --}}
+                                            </div> 
                                             <div class="mb-3">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>

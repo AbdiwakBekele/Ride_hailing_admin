@@ -41,64 +41,21 @@
                     </li>
 
                     <li class="menu-item">
-                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                        <a href="#"  class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-file"></i></span>
                             <span class="menu-text"> Users </span>
                             {{-- <span class="menu-arrow"></span> --}}
                         </a>
-                        <div class="collapse" id="menuExpages">
-                            <ul class="sub-menu">
-                                <li class="menu-item">
-                                    <a href="pages-starter.html" class="menu-link">
-                                        <span class="menu-text">Starter</span>
-                                    </a>
-                                </li>
-                                {{-- <li class="menu-item">
-                                    <a href="pages-invoice.html" class="menu-link">
-                                        <span class="menu-text">Invoice</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-login.html" class="menu-link">
-                                        <span class="menu-text">Log In</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-register.html" class="menu-link">
-                                        <span class="menu-text">Register</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-recoverpw.html" class="menu-link">
-                                        <span class="menu-text">Recover Password</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-lock-screen.html" class="menu-link">
-                                        <span class="menu-text">Lock Screen</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-404.html" class="menu-link">
-                                        <span class="menu-text">Error 404</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="pages-500.html" class="menu-link">
-                                        <span class="menu-text">Error 500</span>
-                                    </a>
-                                </li> --}}
-                            </ul>
-                        </div>
+                      
                     </li>
 
                     <li class="menu-item">
-                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                        <a href="#menuComponentsui" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-file"></i></span>
                             <span class="menu-text"> Drivers </span>
                             <span class="menu-arrow"></span>
                         </a>
-                        <div class="collapse" id="menuExpages">
+                        <div class="collapse" id="menuComponentsui">
                             <ul class="sub-menu">
                                 <li class="menu-item">
                                      <a href="{{ route('drivers.index') }}" class="menu-link">
@@ -118,12 +75,12 @@
                     <li class="menu-title">Components</li>
 
                  <li class="menu-item">
-                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                        <a href="#menuExtendedui" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-file"></i></span>
                             <span class="menu-text"> Clients </span>
                             <span class="menu-arrow"></span>
                         </a>
-                        <div class="collapse" id="menuExpages">
+                        <div class="collapse" id="menuExtendedui">
                             <ul class="sub-menu">
                                 <li class="menu-item">
                                      <a href="{{ route('clients.index') }}" class="menu-link">
@@ -141,12 +98,12 @@
                     </li>
 
                      <li class="menu-item">
-                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                        <a href="#menuIcons" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
                             <span class="menu-icon"><i class="bx bx-file"></i></span>
                             <span class="menu-text"> Cars </span>
                             <span class="menu-arrow"></span>
                         </a>
-                        <div class="collapse" id="menuExpages">
+                        <div class="collapse" id="menuIcons">
                             <ul class="sub-menu">
                                 <li class="menu-item">
                                      <a href="{{ route('cars.index') }}" class="menu-link">

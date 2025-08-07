@@ -21,15 +21,15 @@ return new class extends Migration
     $table->enum('vehicle_type', ['sedan', 'suv', 'truck', 'van']); // Add other vehicle types as needed
     $table->boolean('is_available')->default(false);
     $table->geometry('location')->nullable(); // Requires spatial support
-    $table->string('national_id_url')->default(null);
+    $table->string('national_id_url')->nullable();
     $table->enum('national_id_status', ['pending', 'verified', 'rejected'])->default('pending');
-    $table->string('national_id_number')->unique()->default(null);
-    $table->string('license_url')->default(null);
+    $table->string('national_id_number')->unique()->nullable();
+    $table->string('license_url')->nullable();
     $table->enum('license_status', ['pending', 'verified', 'rejected'])->default('pending');
-    $table->string('license_number')->unique();
-    $table->string('insurance_url')->default(null);
+    $table->string('license_number')->nullable();
+    $table->string('insurance_url')->nullable();
     $table->enum('insurance_status', ['pending', 'verified', 'rejected'])->default('pending');
-    $table->string('picture_url')->default(null);
+    $table->string('picture_url')->nullable();
     $table->enum('picture_status', ['pending', 'verified', 'rejected'])->default('pending');
      $table->enum('status', ['Active', 'Banned', 'Pending'])->default('Pending');
     $table->timestamp('verified_at')->nullable();

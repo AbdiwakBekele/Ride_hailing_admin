@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('routes', function (Blueprint $table) {
-          $table->id(); // Auto-incrementing ID
+          $table->id(); 
 $table->foreignId('client_id')->constrained('clients')->onDelete('cascade');
 $table->foreignId('driver_id')->constrained('drivers')->onDelete('cascade');
-$table->geometry('pickup_location'); // Pickup location as a POINT
-$table->geometry('destination'); // Destination as a POINT
-$table->string('car_type'); // Car type
+$table->geometry('pickup_location'); 
+$table->geometry('destination'); 
+$table->string('car_type'); 
 $table->enum('status', ['Completed', 'Cancelled', 'In Progress'])->default('In Progress');
-$table->decimal('fare', 8, 2); // Fare with 2 decimal places
-$table->decimal('distance_km', 5, 2); // Distance in kilometers
-$table->integer('duration_min'); // Duration in minutes
-$table->timestamps(); // Created at and updated at timestamps
+$table->decimal('fare', 8, 2); 
+$table->decimal('distance_km', 5, 2); 
+$table->integer('duration_min'); 
+$table->timestamps(); 
            
             
           
