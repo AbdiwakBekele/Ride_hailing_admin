@@ -207,10 +207,12 @@ public function toggleStatus(Request $request)
 
     public  function logout()
     {
-        $user = auth()->user();
-           $user->tokens()->delete();
-            // $request->user()->currentAccessToken()->delete();
-            return response()->json(["ok" => true, "message" => "Logged out successfully"]);
+        $user = Auth::guard('driver')->user();
+        if ($user) {
+            $user->tokens()->delete();
+        }
+        // $request->user()->currentAccessToken()->delete();
+        return response()->json(["ok" => true, "message" => "Logged out successfully"]);
 
     }
 
