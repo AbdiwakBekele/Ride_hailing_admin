@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Driver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ApiDriverController extends Controller
 {
@@ -42,24 +43,33 @@ class ApiDriverController extends Controller
          return response()->json(["ok" => false, "message" => "Invalid credentials"], 401);
     }
 
-    public function register(Request $request)
+   public function register(Request $request)
 {
     $validated = $request->validate([
-           'full_name' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:15',
-            'email' => 'required|email|unique:users,email',
-             'vehicle_type' => 'required|string',
-            'password' => 'required|string|min:8|confirmed'
+        'full_name' => 'required|string|max:255',
+        'phone_number' => 'required|string|max:15',
+        'email' => 'required|email|unique:drivers,email', // Fix: use 'drivers' table
+        'vehicle_type' => 'required|string',
+        'password' => 'required|string|min:8|confirmed'
     ]);
 
     $driver = Driver::create([
-         'full_name' => $validated['full_name'],
+        'full_name' => $validated['full_name'],
         'phone_number' => $validated['phone_number'],
         'email' => $validated['email'],
         'password' => bcrypt($validated['password']),
         'vehicle_type' => $validated['vehicle_type'],
     ]);
-return response()->json(['success' => true, 'message' => 'Driver created successfully', 'data' => $driver], 201);
+
+    $token = $driver->createToken('driver-token')->plainTextToken;
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Driver created successfully',
+        'data' => $driver->makeHidden(['password', 'remember_token']),
+        'token' => $token
+    ], 201);
+
     // return response()->json([
     //     'success' => true,
     //     'token' => $driver->createToken('driver-token')->plainTextToken,
@@ -159,16 +169,21 @@ public function uploadPicture(Request $request)
 public function toggleStatus(Request $request)
 {
     $validated = $request->validate([
-        'driver_id' => 'required|exists:drivers,id',
         'is_available' => 'required|boolean',
     ]);
 
+    // Get authenticated driver
+    $driver = Auth::guard('driver')->user();
+
+    if (!$driver) {
+        return response()->json(['message' => 'Unauthenticated.'], 401);
+    }
+
     // Update driver availability status
-    $driver = Driver::find($validated['driver_id']);
     $driver->is_available = $validated['is_available'];
     $driver->save();
 
-    return response()->json(['message' => 'Driver status updated successfully!']);
+    return response()->json(['message' => 'Driver status updated successfully!', 'data' => $driver]);
 }
   
 
@@ -199,21 +214,27 @@ public function toggleStatus(Request $request)
     // Delete a driver
     public function destroy($id)
     {
-        $driver = Driver::findOrFail($id);
+        $driver = Driver::find($id);
+
+        if (!$driver) {
+            return response()->json(['success' => false, 'message' => 'Driver not found'], 404);
+        }
+
         $driver->delete();
 
         return response()->json(['success' => true, 'message' => 'Driver deleted successfully'], 200);
     }
 
+   
     public  function logout()
     {
-        $user = auth()->user();
-           $user->tokens()->delete();
-            // $request->user()->currentAccessToken()->delete();
+        $user = Auth::guard('driver')->user();
+        if ($user) {
+            $user->tokens()->delete();
             return response()->json(["ok" => true, "message" => "Logged out successfully"]);
-
+        }
+        return response()->json(["ok" => false, "message" => "Not authenticated"], 401);
     }
-
 
     // private  function for base64file
 

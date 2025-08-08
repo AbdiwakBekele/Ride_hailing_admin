@@ -1,7 +1,10 @@
 <?php
 
-return [
+use App\Models\User;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\Access\Response;
 
+return [
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
@@ -31,7 +34,7 @@ return [
     | users are actually retrieved out of your database or other storage
     | system used by the application. Typically, Eloquent is utilized.
     |
-    | Supported: "session"
+    | Supported: "session", "token"
     |
     */
 
@@ -40,15 +43,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-         'client' => [  // Custom guard name
-        'driver' => 'session',
-        'provider' => 'clients', // Must match provider key
-    ],
-         'driver' => [  // Custom guard name
-        'driver' => 'session',
-        'provider' => 'drivers', // Must match provider key
-    ],
 
+        'driver' => [
+            'driver' => 'sanctum',
+            'provider' => 'drivers',
+        ],
     ],
 
     /*
@@ -71,12 +70,13 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\User::class,
         ],
+
         'drivers' => [
-        'driver' => 'eloquent',
-        'model' => App\Models\Driver::class, // No env() here
-    ],
+            'driver' => 'eloquent',
+            'model' => App\Models\Driver::class,
+        ],
 
         // 'users' => [
         //     'driver' => 'database',
@@ -123,6 +123,6 @@ return [
     |
     */
 
-    'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
+    'password_timeout' => 10800,
 
 ];
