@@ -15,28 +15,36 @@ use Illuminate\Support\Facades\Route;
 // Route::post('/login',[UserAuthController::class, 'login_post']);
 // Route::post('/register',[UserAuthController::class, 'register']);
 // Route::post('/logout',[UserAuthController::class, 'logout'])->middleware('auth:sanctum');
-Route::apiResource('cars', ApiCarController::class);
+
+// --- Driver Routes ---
+// Specific routes should come before resource routes to avoid conflicts.
 Route::post('/drivers/register', [ApiDriverController::class, 'register']);
 Route::post('/drivers/login', [ApiDriverController::class, 'login']);
-Route::post('/drivers/logout', [ApiDriverController::class, 'logout']);
+Route::post('/drivers/logout', [ApiDriverController::class, 'logout'])->middleware('auth:driver');
+
+// Document Upload Routes
+Route::post('/drivers/documents/national-id', [ApiDriverController::class, 'uploadNationalId'])->middleware('auth:driver');
+Route::post('/drivers/documents/license', [ApiDriverController::class, 'uploadLicense'])->middleware('auth:driver');
+Route::post('/drivers/documents/insurance', [ApiDriverController::class, 'uploadInsurance'])->middleware('auth:driver');
+Route::post('/drivers/documents/picture', [ApiDriverController::class, 'uploadPicture'])->middleware('auth:driver');
+
+// Toggle Driver Status Route
+Route::put('/drivers/status', [ApiDriverController::class, 'toggleStatus'])->middleware('auth:driver');
+
+// General Driver Resource Route
 Route::apiResource('drivers', ApiDriverController::class)->except(['store']);
-Route::apiResource('routes', ApiRouteController::class);
-Route::apiResource('clients', ApiClientController::class);
+
+
+// --- Client Routes ---
 Route::post('/clients/register', [ApiClientController::class, 'register']) ->withoutMiddleware(['web']);;
 Route::post('/clients/login', [ApiClientController::class, 'login']);
 Route::post('/clients/logout', [ApiClientController::class, 'logout'])->middleware('auth:sanctum');
+Route::apiResource('clients', ApiClientController::class);
 
 
-
-// Document Upload Routes
-Route::post('/drivers/documents/national-id', [ApiDriverController::class, 'uploadNationalId']);
-Route::post('/drivers/documents/license', [ApiDriverController::class, 'uploadLicense']);
-Route::post('/drivers/documents/insurance', [ApiDriverController::class, 'uploadInsurance']);
-Route::post('/drivers/documents/picture', [ApiDriverController::class, 'uploadPicture']);
-
-// Toggle Driver Status Route
-Route::post('/drivers/status', [ApiDriverController::class, 'toggleStatus']);
-
+// --- Other Routes ---
+Route::apiResource('cars', ApiCarController::class);
+Route::apiResource('routes', ApiRouteController::class);
 
 // Request Ride Route
 Route::post('/rides/request', [ApiRouteController::class, 'requestRide']);
@@ -45,7 +53,6 @@ Route::post('/rides/request', [ApiRouteController::class, 'requestRide']);
 Route::post('/rides/estimate', [ApiRouteController::class, 'estimateFare']);
 
 // accept request
-
 Route::post('/rides/accept',[ApiRouteController::class,'acceptRide']);
 
 // Update Driver Location Route

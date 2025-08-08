@@ -169,16 +169,21 @@ public function uploadPicture(Request $request)
 public function toggleStatus(Request $request)
 {
     $validated = $request->validate([
-        'driver_id' => 'required|exists:drivers,id',
         'is_available' => 'required|boolean',
     ]);
 
+    // Get authenticated driver
+    $driver = Auth::guard('driver')->user();
+
+    if (!$driver) {
+        return response()->json(['message' => 'Unauthenticated.'], 401);
+    }
+
     // Update driver availability status
-    $driver = Driver::find($validated['driver_id']);
     $driver->is_available = $validated['is_available'];
     $driver->save();
 
-    return response()->json(['message' => 'Driver status updated successfully!']);
+    return response()->json(['message' => 'Driver status updated successfully!', 'data' => $driver]);
 }
   
 
@@ -209,7 +214,12 @@ public function toggleStatus(Request $request)
     // Delete a driver
     public function destroy($id)
     {
-        $driver = Driver::findOrFail($id);
+        $driver = Driver::find($id);
+
+        if (!$driver) {
+            return response()->json(['success' => false, 'message' => 'Driver not found'], 404);
+        }
+
         $driver->delete();
 
         return response()->json(['success' => true, 'message' => 'Driver deleted successfully'], 200);
