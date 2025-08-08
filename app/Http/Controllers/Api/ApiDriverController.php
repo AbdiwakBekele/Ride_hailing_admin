@@ -231,9 +231,10 @@ public function toggleStatus(Request $request)
         $user = Auth::guard('driver')->user();
         if ($user) {
             $user->tokens()->delete();
-            return response()->json(["ok" => true, "message" => "Logged out successfully"]);
         }
-        return response()->json(["ok" => false, "message" => "Not authenticated"], 401);
+        // $request->user()->currentAccessToken()->delete();
+        return response()->json(["ok" => true, "message" => "Logged out successfully"]);
+
     }
 
     // private  function for base64file
