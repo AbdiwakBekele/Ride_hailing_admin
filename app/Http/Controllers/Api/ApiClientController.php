@@ -83,22 +83,22 @@ class ApiClientController extends Controller
 
 
     // Store a newly created client in storage
-    // public function store(Request $request)
-    // {
-    //     $validatedData = $request->validate([
-    //         'full_name' => 'required|string|max:255',
-    //         'phone_number' => 'required|string|max:15',
-    //         'email' => 'required|email|unique:clients,email',
-    //         'gender' => 'required|in:Male,Female,Other',
-    //         'address' => 'required|string',
-    //         'registration_date' => 'required|date',
-    //         'status' => 'required|in:Active,Banned,Pending',
-    //     ]);
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:15',
+            'email' => 'required|email|unique:clients,email',
+            'gender' => 'required|in:Male,Female,Other',
+            'address' => 'required|string',
+            'registration_date' => 'required|date',
+            'status' => 'required|in:Active,Banned,Pending',
+        ]);
 
-    //     $client = Client::create($validatedData);
+        $client = Client::create($validatedData);
 
-    //     return response()->json(['success' => true, 'message' => 'Client created successfully!', 'data' => $client], 201);
-    // }
+        return response()->json(['success' => true, 'message' => 'Client created successfully!', 'data' => $client], 201);
+    }
 
     // Show the specific client
     public function show($id)
