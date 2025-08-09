@@ -107,7 +107,7 @@ public function requestRide(Request $request)
     $destLng = $request->destination['lng'];
 
     // Call to Maps API to get distance and duration
-    $mapsApiKey = config('AIzaSyDdre2CapCMV9Kejq7LBZORjGLB49th2xg'); // Store your API key in config/services.php
+    $mapsApiKey = config('services.google_maps.api_key'); // Store your API key in config/services.php
     $response = Http::get("https://maps.googleapis.com/maps/api/distancematrix/json", [
         'origins' => "{$pickupLat},{$pickupLng}",
         'destinations' => "{$destLat},{$destLng}",
@@ -137,7 +137,7 @@ public function requestRide(Request $request)
 
     // Create a ride entry
     $ride =Route::create([
-        'user_id' => $request->user_id,
+        'client_id' => $request->client_id,
         'pickup_location' => DB::raw("POINT({$pickupLng} {$pickupLat})"),
         'destination' => DB::raw("POINT({$destLng} {$destLat})"),
         'car_type' => $request->car_type,
