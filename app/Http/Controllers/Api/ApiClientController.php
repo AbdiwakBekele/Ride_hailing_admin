@@ -46,13 +46,14 @@ class ApiClientController extends Controller
     public function register(Request $request)
 {
     // return $request;
+     \Log::info($request->all());
     $validated = $request->validate([
         'full_name' => 'required|string|max:255',
         'phone_number' => 'required|string|max:15|unique:clients',
         'email' => 'required|email|unique:clients',
         'password' => 'required|string|min:8',
         'gender' => 'required|in:Male,Female,Other',
-         'status' => 'required|in:Active,Inactive,Suspended',
+         'status' => 'required',
         'address' => 'required|string|max:500',
         
 
