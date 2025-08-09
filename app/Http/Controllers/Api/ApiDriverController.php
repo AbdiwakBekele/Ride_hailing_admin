@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Driver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class ApiDriverController extends Controller
@@ -26,21 +27,24 @@ class ApiDriverController extends Controller
 
      public function login(Request $request)
     {
-        // Logic for handling POST request for login
-        $credentials = $request->validate([
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        if(Auth::guard('driver')->attempt($credentials)){
-            $driver = Driver::where('email', $request->email)->first();
-            $token = $driver->createToken("token");
-           return response()->json([
-    "ok" => true,
-    'driver' => $driver,
-    'token' => $token->plainTextToken
-], 200);
- }
-         return response()->json(["ok" => false, "message" => "Invalid credentials"], 401);
+
+        $driver = Driver::where('email', $request->email)->first();
+
+        if (!$driver || !Hash::check($request->password, $driver->password)) {
+            return response()->json(["ok" => false, "message" => "Invalid credentials"], 401);
+        }
+
+        $token = $driver->createToken("token");
+
+        return response()->json([
+            "ok" => true,
+            'driver' => $driver,
+            'token' => $token->plainTextToken
+        ], 200);
     }
 
    public function register(Request $request)
