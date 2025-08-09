@@ -107,7 +107,7 @@ public function requestRide(Request $request)
     $destLng = $request->destination['lng'];
 
     // Call to Maps API to get distance and duration
-    $mapsApiKey = config('services.maps.api_key'); // Store your API key in config/services.php
+    $mapsApiKey = config('AIzaSyDdre2CapCMV9Kejq7LBZORjGLB49th2xg'); // Store your API key in config/services.php
     $response = Http::get("https://maps.googleapis.com/maps/api/distancematrix/json", [
         'origins' => "{$pickupLat},{$pickupLng}",
         'destinations' => "{$destLat},{$destLng}",
