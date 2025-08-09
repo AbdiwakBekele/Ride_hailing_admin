@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('email')->nullable();
      
-    $table->enum('vehicle_type', ['sedan', 'suv', 'truck', 'van']); // Add other vehicle types as needed
+    $table->enum('vehicle_type', ['sedan', 'suv', 'truck', 'van']); 
     $table->boolean('is_available')->default(false);
     $table->geometry('location')->nullable(); // Requires spatial support
     $table->string('national_id_url')->nullable();
