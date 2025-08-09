@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
 
+
 class ApiClientController extends Controller
 {
      // Display a listing of clients
@@ -23,25 +24,35 @@ class ApiClientController extends Controller
     //     return response()->json(['success' => true, 'message' => 'Use POST /clients to create a new client'], 200);
     // }
 
-      public function login(Request $request)
-    {
-        // return $request;
-        // Logic for handling POST request for login
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-        if(Auth::guard('client')->attempt($credentials)){
-            $client = Client::where('email', $request->email)->first();
-            $token = $client->createToken("token");
-           return response()->json([
-    "ok" => true,
-    'client' => $client,
-    'token' => $token->plainTextToken
-], 200);
- }
-         return response()->json(["ok" => false, "message" => "Invalid credentials"], 401);
+   
+
+public function login(Request $request)
+{
+    // Validate the incoming request
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    // Attempt to authenticate the client
+    $client = Client::where('email', $request->email)->first();
+
+    if ($client && Hash::check($request->password, $client->password)) {
+        // Create a token for the authenticated client
+        $token = $client->createToken("token");
+
+        return response()->json([
+            "ok" => true,
+            'client' => $client,
+            'token' => $token->plainTextToken,
+        ], 200);
     }
+
+    return response()->json([
+        "ok" => false,
+        "message" => "Invalid credentials"
+    ], 401);
+}
 
     public function register(Request $request)
 {
