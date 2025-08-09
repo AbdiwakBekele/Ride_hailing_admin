@@ -25,7 +25,7 @@ Route::post('/drivers/logout', [ApiDriverController::class, 'logout'])->middlewa
 // --- Client Routes ---
 Route::post('/clients/register', [ApiClientController::class, 'register']) ->withoutMiddleware(['web']);;
 Route::post('/clients/login', [ApiClientController::class, 'login']);
-Route::post('/clients/logout', [ApiClientController::class, 'logout']);
+Route::post('/clients/logout', [ApiClientController::class, 'logout'])->middleware('auth:client');
 // Document Upload Routes
 Route::post('/drivers/documents/national-id', [ApiDriverController::class, 'uploadNationalId'])->middleware('auth:driver');
 Route::post('/drivers/documents/license', [ApiDriverController::class, 'uploadLicense'])->middleware('auth:driver');
