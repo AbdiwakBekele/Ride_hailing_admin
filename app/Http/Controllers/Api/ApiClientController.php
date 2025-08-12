@@ -57,7 +57,7 @@ public function login(Request $request)
     public function register(Request $request)
 {
     // return $request;
-     \Log::info($request->all());
+  
     $validated = $request->validate([
         'full_name' => 'required|string|max:255',
         'phone_number' => 'required|string|max:15|unique:clients',

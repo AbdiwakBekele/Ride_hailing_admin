@@ -13,6 +13,7 @@ use App\Models\Driver;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\DB;
 
 class ApiRouteController extends Controller
 {
@@ -85,6 +86,8 @@ class ApiRouteController extends Controller
 
 public function requestRide(Request $request)
 {
+    \Log::info($request->all());
+
     // Validate the request
     $validator = Validator::make($request->all(), [
         'client_id' => 'required|string',
@@ -106,22 +109,9 @@ public function requestRide(Request $request)
     $destLat = $request->destination['lat'];
     $destLng = $request->destination['lng'];
 
-    // Call to Maps API to get distance and duration
-    $mapsApiKey = config('services.google_maps.api_key'); // Store your API key in config/services.php
-    $response = Http::get("https://maps.googleapis.com/maps/api/distancematrix/json", [
-        'origins' => "{$pickupLat},{$pickupLng}",
-        'destinations' => "{$destLat},{$destLng}",
-        'key' => $mapsApiKey,
-    ]);
-
-    // Handle API response
-    if ($response->successful()) {
-        $data = $response->json();
-        $distance = $data['rows'][0]['elements'][0]['distance']['value'] / 1000; // Convert to km
-        $duration = $data['rows'][0]['elements'][0]['duration']['value'] / 60; // Convert to minutes
-    } else {
-        return response()->json(['error' => 'Unable to calculate distance and duration'], 500);
-    }
+    // Use demo data for distance and duration
+    $distance = $this->calculateDistance($pickupLat, $pickupLng, $destLat, $destLng); // in kilometers
+    $duration = $distance * 2; // Assuming an average speed of 30 km/h
 
     // Calculate fare
     $fare = $this->calculateFare($distance, $request->car_type);
@@ -136,12 +126,12 @@ public function requestRide(Request $request)
     }
 
     // Create a ride entry
-    $ride =Route::create([
+    $ride = Route::create([
         'client_id' => $request->client_id,
-        'pickup_location' => DB::raw("POINT({$pickupLng} {$pickupLat})"),
-        'destination' => DB::raw("POINT({$destLng} {$destLat})"),
+        'pickup_location' => DB::raw("ST_GeomFromText('POINT({$pickupLng} {$pickupLat})')"), // Use ST_GeomFromText
+        'destination' => DB::raw("ST_GeomFromText('POINT({$destLng} {$destLat})')"), // Use ST_GeomFromText
         'car_type' => $request->car_type,
-        'status' => 'searching',
+        'status' => 'In Progress', // Ensure this matches your enum values
         'fare' => $fare,
         'distance_km' => $distance,
         'duration_min' => $duration,
@@ -150,8 +140,28 @@ public function requestRide(Request $request)
     return response()->json($ride, 201);
 }
 
-// Calculate fare based on distance and car type
+// Function to calculate distance between two coordinates (Haversine formula)
+// private function calculateDistance($lat1, $lng1, $lat2, $lng2)
+// {
+//     $earthRadius = 6371; // Earth radius in kilometers
 
+//     $latFrom = deg2rad($lat1);
+//     $lngFrom = deg2rad($lng1);
+//     $latTo = deg2rad($lat2);
+//     $lngTo = deg2rad($lng2);
+
+//     $latDelta = $latTo - $latFrom;
+//     $lngDelta = $lngTo - $lngFrom;
+
+//     $a = sin($latDelta / 2) * sin($latDelta / 2) +
+//          cos($latFrom) * cos($latTo) *
+//          sin($lngDelta / 2) * sin($lngDelta / 2);
+//     $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+//     return $earthRadius * $c; // Distance in kilometers
+// }
+
+// Calculate fare based on distance and car type
 
 public function estimateFare(Request $request)
 {
@@ -174,32 +184,41 @@ public function estimateFare(Request $request)
     $destLat = $request->dest_lat;
     $destLng = $request->dest_lng;
 
-    // Call to Maps API to get distance and duration
-    $mapsApiKey = config('services.maps.api_key');
-    $response = Http::get("https://maps.googleapis.com/maps/api/distancematrix/json", [
-        'origins' => "{$pickupLat},{$pickupLng}",
-        'destinations' => "{$destLat},{$destLng}",
-        'key' => $mapsApiKey,
+    // Use demo data for distance and duration
+    // For simplicity, we can estimate distance as a simple calculation
+    $distance = $this->calculateDistance($pickupLat, $pickupLng, $destLat, $destLng); // in kilometers
+    $duration = $distance * 2; // Assuming an average speed of 30 km/h
+
+    // Estimate fare
+    $fare = $this->calculateFare($distance, $request->car_type);
+
+    return response()->json([
+        'estimated_fare' => $fare,
+        'distance_km' => $distance,
+        'duration_minutes' => $duration,
+        'currency' => 'ETB'
     ]);
+}
 
-    // Handle API response
-    if ($response->successful()) {
-        $data = $response->json();
-        $distance = $data['rows'][0]['elements'][0]['distance']['value'] / 1000; // Convert to km
-        $duration = $data['rows'][0]['elements'][0]['duration']['value'] / 60; // Convert to minutes
+// Function to calculate distance between two coordinates (Haversine formula)
+private function calculateDistance($lat1, $lng1, $lat2, $lng2)
+{
+    $earthRadius = 6371; // Earth radius in kilometers
 
-        // Estimate fare
-        $fare = $this->calculateFare($distance, $request->car_type);
+    $latFrom = deg2rad($lat1);
+    $lngFrom = deg2rad($lng1);
+    $latTo = deg2rad($lat2);
+    $lngTo = deg2rad($lng2);
 
-        return response()->json([
-            'estimated_fare' => $fare,
-            'distance_km' => $distance,
-            'duration_minutes' => $duration,
-            'currency' => 'ETB'
-        ]);
-    } else {
-        return response()->json(['error' => 'Unable to calculate distance and duration'], 500);
-    }
+    $latDelta = $latTo - $latFrom;
+    $lngDelta = $lngTo - $lngFrom;
+
+    $a = sin($latDelta / 2) * sin($latDelta / 2) +
+         cos($latFrom) * cos($latTo) *
+         sin($lngDelta / 2) * sin($lngDelta / 2);
+    $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+    return $earthRadius * $c; // Distance in kilometers
 }
 
 public function acceptRide(Request $request)
@@ -215,17 +234,24 @@ public function acceptRide(Request $request)
     }
 
     // Lock the ride and update status
-    $ride = Route::find($request->ride_id);
+    $ride = Route::find($request->route_id); // Corrected from ride_id to route_id
+    if (!$ride) {
+        return response()->json(['message' => 'Ride not found'], 404);
+    }
+
     $ride->driver_id = $request->driver_id;
-    $ride->status = 'accepted';
+    $ride->status = 'Accepted';
     $ride->save();
 
     // Fetch driver details
     $driver = Driver::find($request->driver_id);
+    if (!$driver) {
+        return response()->json(['message' => 'Driver not found'], 404);
+    }
 
     // Notify the rider with driver details
     event(new RideAcceptedEvent(
-        $route->id,
+        $ride->id,
         $driver->id,
         $driver->name,
         [
@@ -245,7 +271,7 @@ public function acceptRide(Request $request)
 
 public function updateDriverLocation(Request $request)
 {
-    // Validate the request as before
+    // Validate the request
     $validator = Validator::make($request->all(), [
         'driver_id' => 'required|string|exists:drivers,id',
         'route_id' => 'required|string|exists:routes,id',
@@ -257,13 +283,25 @@ public function updateDriverLocation(Request $request)
         return response()->json($validator->errors(), 422);
     }
 
-    // Find the ride and update driver's location
-    $ride = Route::find($request->ride_id);
-    // Update driver's location in the database (not shown here)
+    // Find the ride
+    $ride = Route::find($request->route_id);
+    if (!$ride) {
+        return response()->json(['message' => 'Ride not found'], 404);
+    }
+
+    // Update driver's location in the database
+    $driver = Driver::find($request->driver_id);
+    if (!$driver) {
+        return response()->json(['message' => 'Driver not found'], 404);
+    }
+
+    // Update the driver's location using the provided coordinates
+    $driver->location = DB::raw("ST_GeomFromText('POINT({$request->current_location['lng']} {$request->current_location['lat']})', 4326)");
+    $driver->save();
 
     // Notify the rider with the updated location
     event(new DriverLocationUpdatedEvent(
-        $route->id,
+        $ride->id,
         $request->driver_id,
         $request->current_location['lat'],
         $request->current_location['lng']

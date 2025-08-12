@@ -32,6 +32,7 @@ return new class extends Migration
     $table->string('picture_url')->nullable();
     $table->enum('picture_status', ['pending', 'verified', 'rejected'])->default('pending');
      $table->enum('status', ['Active', 'Banned', 'Pending'])->default('Pending');
+    
     $table->timestamp('verified_at')->nullable();
     $table->timestamps();
         });
