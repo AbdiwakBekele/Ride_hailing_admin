@@ -36,7 +36,7 @@ return new class extends Migration
     // $table->timestamp('verified_at')->nullable();
     // $table->timestamps();
 
-     $table->bigInteger('id')->unsigned()->primary(); // bigint(20) UNSIGNED
+             $table->bigIncrements('id'); 
             $table->string('full_name');
             $table->string('phone_number');
             $table->string('password');
@@ -59,7 +59,8 @@ return new class extends Migration
             $table->timestamps(); // Creates created_at and updated_at
         });
         
-       
+     // Set the default character set and collation
+        DB::statement('ALTER TABLE drivers ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;');
     }
 
     /**
