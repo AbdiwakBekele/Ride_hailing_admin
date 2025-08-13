@@ -248,16 +248,12 @@ public function toggleStatus(Request $request)
     // Decode the base64 data
     $fileData = base64_decode($base64Data);
     
-    // Generate a unique name for the file, keeping the original extension
-    $extension = pathinfo($fileName, PATHINFO_EXTENSION);
-    $newFileName = uniqid() . '.' . $extension;
-
-    // Define the public storage path
-    $path = 'documents/' . $newFileName; // This will be inside 'storage/app/public/documents'
+    // Define the local storage path
+    $path = 'documents/' . $fileName; // Adjust this to your desired structure
     
-    // Store the file in the public disk
-    Storage::disk('public')->put($path, $fileData);
+    // Store the file locally
+    Storage::disk('local')->put($path, $fileData);
 
-    return Storage::url($path); // Returns the public URL for accessing the file
+    return Storage::url($path); // Returns the URL for accessing the file
 }
 }
