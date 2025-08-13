@@ -29,4 +29,12 @@ public function client()
 {
     return $this->belongsTo(Client::class, 'client_id');
 }
+ public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+ public function clientnotifications()
+    {
+        return $this->hasMany(ClientNotification::class);
+    }
 }

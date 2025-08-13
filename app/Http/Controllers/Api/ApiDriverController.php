@@ -172,10 +172,6 @@ public function uploadPicture(Request $request)
 // Toggle Driver Status
 public function toggleStatus(Request $request)
 {
-    $validated = $request->validate([
-        'is_available' => 'required|boolean',
-    ]);
-
     // Get authenticated driver
     $driver = Auth::guard('driver')->user();
 
@@ -183,13 +179,21 @@ public function toggleStatus(Request $request)
         return response()->json(['message' => 'Unauthenticated.'], 401);
     }
 
-    // Update driver availability status
-    $driver->is_available = $validated['is_available'];
-    $driver->save();
+    // Toggle driver availability status
+    $driver->is_available = !$driver->is_available; // Switch the current status
 
-    return response()->json(['message' => 'Driver status updated successfully!', 'data' => $driver]);
+    if ($driver->save()) {
+        return response()->json([
+            'message' => 'Driver status updated successfully!',
+            'data' => [
+                'driver_id' => $driver->id,
+                'is_available' => $driver->is_available,
+            ]
+        ]);
+    } else {
+        return response()->json(['message' => 'Failed to update status.'], 500);
+    }
 }
-  
 
     // Update an existing driver
     public function update(Request $request, $id)

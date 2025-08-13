@@ -40,6 +40,14 @@ class Driver extends Authenticatable
     public function route(){
         return $this->hasOne(Route::class,'driver_id');
     }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+    public function clientnotifications()
+    {
+        return $this->hasMany(ClientNotification::class);
+    }
 //     public function user()
 // {
 //     return $this->belongsTo(User::class);

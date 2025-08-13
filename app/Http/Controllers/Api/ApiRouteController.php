@@ -11,6 +11,8 @@ use App\Events\RideCompletedEvent;
 use App\Models\Route;
 use App\Models\Driver;
 use App\Models\Client;
+use App\Models\Notification;
+use App\Models\ClientNotification;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\DB;
@@ -31,46 +33,7 @@ class ApiRouteController extends Controller
         return response()->json(['success' => true, 'data' => $route], 200);
     }
 
-    // Store a new route
-    // public function store(Request $request)
-    // {
-    //     $validatedData = $request->validate([
-    //         'pickup_location' => 'required|string|max:255',
-    //         'dropoff_location' => 'required|string|max:255',
-    //         'pickup_time' => 'required|date',
-    //         'dropoff_time' => 'required|date|after:pickup_time',
-    //         'fare_amount' => 'required|numeric',
-    //         'distance_km' => 'required|numeric',
-    //         'driver_id' => 'required|exists:drivers,id',
-    //         'client_id' => 'required|exists:clients,id',
-    //         'status' => 'required|in:Completed,Cancelled,In Progress',
-    //     ]);
-
-    //     $route = Route::create($validatedData);
-    //     return response()->json(['success' => true, 'message' => 'Route created successfully', 'data' => $route], 201);
-    // }
-
-    // Update an existing route
-    // public function update(Request $request, $id)
-    // {
-    //     $route = Route::findOrFail($id);
-
-    //     $validatedData = $request->validate([
-    //         'pickup_location' => 'required|string|max:255',
-    //         'dropoff_location' => 'required|string|max:255',
-    //         'pickup_time' => 'required|date',
-    //         'dropoff_time' => 'required|date|after:pickup_time',
-    //         'fare_amount' => 'required|numeric',
-    //         'distance_km' => 'required|numeric',
-    //         'driver_id' => 'required|exists:drivers,id',
-    //         'client_id' => 'required|exists:clients,id',
-    //         'status' => 'required|in:Completed,Cancelled,In Progress',
-    //     ]);
-
-    //     $route->update($validatedData);
-    //     return response()->json(['success' => true, 'message' => 'Route updated successfully', 'data' => $route], 200);
-    // }
-
+ 
     // Delete a route
     public function destroy($id)
     {
@@ -83,7 +46,6 @@ class ApiRouteController extends Controller
     // CREATE REQUEST 
 
     
-
 public function requestRide(Request $request)
 {
     \Log::info($request->all());
@@ -126,40 +88,92 @@ public function requestRide(Request $request)
     }
 
     // Create a ride entry
-    $ride = Route::create([
-        'client_id' => $request->client_id,
-        'pickup_location' => DB::raw("ST_GeomFromText('POINT({$pickupLng} {$pickupLat})')"), // Use ST_GeomFromText
-        'destination' => DB::raw("ST_GeomFromText('POINT({$destLng} {$destLat})')"), // Use ST_GeomFromText
-        'car_type' => $request->car_type,
-        'status' => 'In Progress', // Ensure this matches your enum values
-        'fare' => $fare,
-        'distance_km' => $distance,
-        'duration_min' => $duration,
+    try {
+        $ride = Route::create([
+            'client_id' => $request->client_id,
+            'pickup_location' => DB::raw("ST_GeomFromText('POINT({$pickupLng} {$pickupLat})')"),
+            'destination' => DB::raw("ST_GeomFromText('POINT({$destLng} {$destLat})')"),
+            'car_type' => $request->car_type,
+            'status' => 'In Progress',
+            'fare' => $fare,
+            'distance_km' => $distance,
+            'duration_min' => $duration,
+        ]);
+
+        // Log the created route
+        \Log::info('Ride created successfully:', [
+            'ride_id' => $ride->id,
+            'client_id' => $request->client_id,
+            'pickup_location' => $request->pickup_location,
+            'destination' => $request->destination,
+            'car_type' => $request->car_type,
+            'fare' => $fare,
+            'distance_km' => $distance,
+            'duration_min' => $duration,
+        ]);
+
+        // Fetch client details
+        $client = Client::find($request->client_id);
+
+        // Create notifications for each available driver
+        foreach ($availableDrivers as $driver) {
+            Notification::create([
+                'driver_id' => $driver->id,
+                'route_id' => $ride->id,
+                'client_name' => $client->full_name,
+                'client_contact' => $client->phone_number,
+                'pickup_location' => $request->pickup_location,
+                'destination' => $ride->destination,
+                'estimated_fare' => $ride->fare,
+                'estimated_distance' => $ride->distance_km,
+                'estimated_duration' => $ride->duration_min,
+                'status' => 'pending',
+                'created_at' => now(),
+            ]);
+
+            // Optionally, broadcast the notification to the driver
+                        event(new RideRequestEvent(
+                            $ride->id,
+                            $request->pickup_location,
+                            $request->destination,
+                            $ride->fare,
+                            $request->car_type,
+                            $driver->id
+                        ));
+        }
+
+        \Log::info('Ride created:', (array)$ride);
+    } catch (\Exception $e) {
+    \Log::error('Error creating ride: ' . $e->getMessage(), [
+        'stack' => $e->getTraceAsString(),
     ]);
+    return response()->json(['message' => 'Error creating ride'], 500);
+}
 
     return response()->json($ride, 201);
 }
-
-// Function to calculate distance between two coordinates (Haversine formula)
-// private function calculateDistance($lat1, $lng1, $lat2, $lng2)
+// private function notifyDriver($driver, $ride)
 // {
-//     $earthRadius = 6371; // Earth radius in kilometers
+//       $client = Client::find($ride->client_id); // Ensure you have the correct relationship
 
-//     $latFrom = deg2rad($lat1);
-//     $lngFrom = deg2rad($lng1);
-//     $latTo = deg2rad($lat2);
-//     $lngTo = deg2rad($lng2);
+  
 
-//     $latDelta = $latTo - $latFrom;
-//     $lngDelta = $lngTo - $lngFrom;
-
-//     $a = sin($latDelta / 2) * sin($latDelta / 2) +
-//          cos($latFrom) * cos($latTo) *
-//          sin($lngDelta / 2) * sin($lngDelta / 2);
-//     $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-
-//     return $earthRadius * $c; // Distance in kilometers
+//     Notification::create([
+//         'driver_id' => $driver->id,
+//         'route_id' => $ride->id,
+//         'client_name' => $client->full_name,
+//         'client_contact' => $client->phone_number,
+//         'pickup_location' => json_encode($ride->pickup_location),
+//         'destination' => json_encode($ride->destination),
+//         'estimated_fare' => $ride->fare,
+//         'estimated_distance' => $ride->distance_km,
+//         'estimated_duration' => $ride->duration_min,
+//         'status' => 'pending',
+//         'created_at' => now(),
+//     ]);
 // }
+
+
 
 // Calculate fare based on distance and car type
 
@@ -221,6 +235,9 @@ private function calculateDistance($lat1, $lng1, $lat2, $lng2)
     return $earthRadius * $c; // Distance in kilometers
 }
 
+/////////////////////////////////////////////////// ACCEPT RIDE//////////////////////////////////////////////////////////////////
+
+
 public function acceptRide(Request $request)
 {
     // Validate the request
@@ -233,50 +250,124 @@ public function acceptRide(Request $request)
         return response()->json($validator->errors(), 422);
     }
 
-    // Lock the ride and update status
-    $ride = Route::find($request->route_id); // Corrected from ride_id to route_id
+    // Lock the ride and check its status
+    $ride = Route::find($request->route_id);
     if (!$ride) {
         return response()->json(['message' => 'Ride not found'], 404);
     }
 
+    // Check if the ride is already accepted
+    if ($ride->status === 'Accepted') {
+        return response()->json(['message' => 'This ride has already been accepted by another driver.'], 409);
+    }
+
+    // Assign the ride to the driver and update the status
     $ride->driver_id = $request->driver_id;
     $ride->status = 'Accepted';
     $ride->save();
 
-    // Fetch driver details
+    // Mark the driver as unavailable
     $driver = Driver::find($request->driver_id);
     if (!$driver) {
         return response()->json(['message' => 'Driver not found'], 404);
     }
 
-    // Notify the rider with driver details
-    event(new RideAcceptedEvent(
-        $ride->id,
-        $driver->id,
-        $driver->name,
-        [
-            'model' => $driver->vehicle_model,
-            'plate' => $driver->vehicle_plate,
-            'color' => $driver->vehicle_color,
-        ],
-        [
-            'lat' => $driver->location->getLat(),
-            'lng' => $driver->location->getLng(),
-        ],
-        3 // Example ETA
-    ));
+    $driver->is_available = false; // Set driver to unavailable
+    $driver->save();
 
-    return response()->json(['message' => 'Ride accepted successfully!', 'ride' => $ride], 200);
+    // Notify the client with driver details
+    $this->notifyClient($ride, $driver);
+
+    return response()->json([
+        'message' => 'Ride accepted successfully.',
+        'ride' => $ride,
+        'driver' => [
+            'name' => $driver->full_name,
+            'vehicle_model' => $driver->vehicle_model, // Ensure this field exists
+            'plate_number' => $driver->plate_number, // Ensure this field exists
+            'color' => $driver->color, // Ensure this field exists
+            'estimated_arrival_time' => $this->calculateEstimatedArrivalTime($ride), // Implement this method
+        ],
+    ], 200);
 }
+////////////////////////////////////////////notification logic////////////////////////////////////////////////////
+
+
+private function notifyClient($ride, $driver)
+{
+    // Assuming you have a Client model and relationship set up
+    $client = Client::find($ride->client_id);
+    if ($client) {
+        ClientNotification::create([
+            'client_id' => $client->id,
+            'message' => 'Your ride has been accepted by ' . $driver->full_name,
+            'driver_name' => $driver->full_name,
+            'vehicle_model' => $driver->vehicle_model,
+            'plate_number' => $driver->plate_number,
+            'color' => $driver->color,
+            'estimated_arrival_time' => $this->calculateEstimatedArrivalTime($ride),
+            'status' => 'pending',
+            'created_at' => now(),
+        ]);
+    }
+}
+
+////////////////////////////////////////calculate estimated arrival time////////////////////////////////////////////////////
+
+
+
+private function calculateEstimatedArrivalTime($ride)
+{
+    // Implement logic to calculate estimated arrival time based on distance and speed
+    return '10 minutes'; // Example placeholder value
+}
+
+public function declineRide(Request $request)
+{
+    // Validate the request
+    $validator = Validator::make($request->all(), [
+        'route_id' => 'required|string|exists:routes,id',
+        'driver_id' => 'required|string|exists:drivers,id',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 422);
+    }
+
+    // Lock the ride and check its status
+    $ride = Route::find($request->route_id);
+    if (!$ride) {
+        return response()->json(['message' => 'Ride not found'], 404);
+    }
+
+    // Check if the ride is already accepted
+    if ($ride->status === 'Accepted') {
+        return response()->json(['message' => 'This ride has already been accepted and cannot be declined.'], 409);
+    }
+
+    // Remove the request from the driver's view and update status
+    $ride->status = 'Available'; // Mark the ride as available again
+    $ride->driver_id = null; // Remove the assigned driver
+    $ride->save();
+
+    // Optionally, you can notify other nearby drivers about the available ride here
+
+    return response()->json([
+        'message' => 'Ride declined successfully. You are now available for new requests.',
+        'ride' => $ride,
+    ], 200);
+}
+//////////////////////////////////////update driver location////////////////////////////////////////////////////
+
+
 
 public function updateDriverLocation(Request $request)
 {
     // Validate the request
     $validator = Validator::make($request->all(), [
-        'driver_id' => 'required|string|exists:drivers,id',
         'route_id' => 'required|string|exists:routes,id',
-        'current_location.lat' => 'required|numeric',
-        'current_location.lng' => 'required|numeric',
+        'driver_id' => 'required|string|exists:drivers,id',
+        'location' => 'required|json', // Expecting location data in JSON format
     ]);
 
     if ($validator->fails()) {
@@ -289,26 +380,127 @@ public function updateDriverLocation(Request $request)
         return response()->json(['message' => 'Ride not found'], 404);
     }
 
-    // Update driver's location in the database
-    $driver = Driver::find($request->driver_id);
-    if (!$driver) {
-        return response()->json(['message' => 'Driver not found'], 404);
+    // Update driver's current location
+    $ride->driver_location = json_encode($request->location);
+    $ride->save();
+
+    // Notify the client with the updated driver location
+    $this->notifyClientWithLocation($ride);
+
+    return response()->json(['message' => 'Driver location updated successfully.'], 200);
+}
+//////////////////////////////////////////notify client with driver location////////////////////////////////////////////////////
+
+
+private function notifyClientWithLocation($ride)
+{
+    $client = Client::find($ride->client_id);
+    if ($client) {
+        // Create a new notification or update existing notification logic
+        ClientNotification::create([
+            'client_id' => $client->id,
+            'route_id' => $ride->id,
+            'message' => 'Your driver is on the way and is currently located at: ' . $ride->driver_location,
+            'status' => 'pending',
+        ]);
+    }
+}
+
+////////////////////////////////////////////////////confirm arrival at pickup point////////////////////////////////////////////////////
+
+public function confirmArrival(Request $request)
+{
+    // Validate the request
+    $validator = Validator::make($request->all(), [
+        'route_id' => 'required|string|exists:routes,id',
+        'driver_id' => 'required|string|exists:drivers,id',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 422);
     }
 
-    // Update the driver's location using the provided coordinates
-    $driver->location = DB::raw("ST_GeomFromText('POINT({$request->current_location['lng']} {$request->current_location['lat']})', 4326)");
-    $driver->save();
+    // Find the ride
+    $ride = Route::find($request->route_id);
+    if (!$ride) {
+        return response()->json(['message' => 'Ride not found'], 404);
+    }
 
-    // Notify the rider with the updated location
-    event(new DriverLocationUpdatedEvent(
-        $ride->id,
-        $request->driver_id,
-        $request->current_location['lat'],
-        $request->current_location['lng']
-    ));
+    // Confirm the driver has arrived
+    $ride->status = 'At Pickup'; // Update ride status
+    $ride->save();
 
-    return response()->json(['message' => 'Driver location updated successfully!'], 200);
+    // Notify the client that the driver has arrived
+    $this->notifyClientArrival($ride);
+
+    return response()->json(['message' => 'Driver has confirmed arrival at the pickup point.'], 200);
 }
+
+////////////////////////////////////////////////////////notify client about arrival////////////////////////////////////////////////////
+
+
+private function notifyClientArrival($ride)
+{
+    $client = Client::find($ride->client_id);
+    if ($client) {
+        ClientNotification::create([
+            'client_id' => $client->id,
+            'route_id' => $ride->id,
+            'message' => 'Your driver has arrived at your pickup location.',
+            'status' => 'pending',
+        ]);
+    }
+}
+
+///////////////////////////////////////////////////cancel ride////////////////////////////////////////////////////
+
+
+public function cancelRide(Request $request)
+{
+    // Validate the request
+    $validator = Validator::make($request->all(), [
+        'route_id' => 'required|string|exists:routes,id',
+        'driver_id' => 'required|string|exists:drivers,id',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 422);
+    }
+
+    // Find the ride
+    $ride = Route::find($request->route_id);
+    if (!$ride) {
+        return response()->json(['message' => 'Ride not found'], 404);
+    }
+
+    // Cancel the ride
+    $ride->status = 'Cancelled';
+    $ride->save();
+
+    // Notify the client about the cancellation
+    $this->notifyClientCancellation($ride);
+
+    return response()->json(['message' => 'Ride cancelled successfully.'], 200);
+}
+
+////////////////////////////////////////////notify client about cancellation////////////////////////////////////////////////////
+
+
+private function notifyClientCancellation($ride)
+{
+    $client = Client::find($ride->client_id);
+    if ($client) {
+        ClientNotification::create([
+            'client_id' => $client->id,
+            'route_id' => $ride->id,
+            'message' => 'Your ride has been cancelled. Please request a new ride.',
+            'status' => 'pending',
+        ]);
+    }
+}
+
+///////////////////////////////////////////////////////////////start ride////////////////////////////////////////////////////
+
 
 public function startRide(Request $request)
 {
@@ -339,6 +531,9 @@ public function startRide(Request $request)
     return response()->json(['message' => 'Ride started successfully!'], 200);
 }
 
+//////////////////////////////////////////////////////////complete ride////////////////////////////////////////////////////
+
+
 public function completeRide(Request $request)
 {
     // Validate the request
@@ -368,17 +563,13 @@ public function completeRide(Request $request)
     $ride->duration_minutes = $request->duration_minutes;
     $ride->save();
 
-    // Notify the rider (client) about the completed ride
-    event(new RideCompletedEvent(
-        $ride->id,
-        $ride->client_id, // Assuming the client_id is stored in the ride
-        $request->actual_fare,
-        $request->distance_travelled_km,
-        $request->duration_minutes
-    ));
 
     return response()->json(['message' => 'Ride completed successfully!'], 200);
 }
+
+
+///////////////////////////////////////////////////////////////////calculate fare////////////////////////////////////////////////////
+
 
 private function calculateFare($distance, $carType)
 {

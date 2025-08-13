@@ -8,13 +8,6 @@ use App\Http\Controllers\Api\ApiClientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
-// Route::get('/login',[UserAuthController::class, 'login_get']);
-// Route::post('/login',[UserAuthController::class, 'login_post']);
-// Route::post('/register',[UserAuthController::class, 'register']);
-// Route::post('/logout',[UserAuthController::class, 'logout'])->middleware('auth:sanctum');
 
 // --- Driver Routes ---
 // Specific routes should come before resource routes to avoid conflicts.
@@ -64,5 +57,8 @@ Route::post('/rides/start', [ApiDriverController::class, 'startRide']);
 
 // Complete Ride Route
 Route::post('/rides/complete', [ApiDriverController::class, 'completeRide']);
+
+
+
  
 //Test

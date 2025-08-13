@@ -30,6 +30,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+          // Drop the foreign key first
+        // Drop the foreign key first
+   
         Schema::dropIfExists('cars');
     }
 };
