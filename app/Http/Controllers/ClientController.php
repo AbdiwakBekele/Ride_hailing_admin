@@ -23,7 +23,7 @@ class ClientController extends Controller
     // Store a newly created client in storage
     public function store(Request $request)
     {
-       
+       \Log::info('Storing new client with data: ', $request->all());
         $request->validate([
             'full_name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:15',

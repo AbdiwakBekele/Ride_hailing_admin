@@ -83,8 +83,7 @@ class DriverController extends Controller
         'full_name' => 'required|string|max:255',
         'phone_number' => 'required|string|max:15',
         'email' => 'required|email|unique:drivers,email,' . $driver->id,
-        'license_number' => 'required|string|max:50',
-        'status' => 'required|in:Active,Inactive,Suspended',
+        'vehicle_type' => $validatedData['vehicle_type'],
     ]);
 
    

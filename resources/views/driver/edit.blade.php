@@ -1,205 +1,6 @@
 @extends('layouts.layout')
 @section('content')
-  <div class="layout-wrapper">
-      <div class="main-menu">
-            <!-- Brand Logo -->
-            <div class="logo-box">
-                <!-- Brand Logo Light -->
-                <a href="index.html" class="logo-light">
-                    <img src="{{asset('assets/images/logo_ride.jpg')}}" alt="logo" class="logo-lg" style="width:140px; height:70px; border: none; border-radius: 5%;" >
-                    {{-- <img src="assets/images/logo-sm.png" alt="small logo" class="logo-sm" height="28"> --}}
-                </a>
-
-                <!-- Brand Logo Dark -->
-                <a href="index.html" class="logo-dark">
-                    <img src="{{asset('assets/images/logo_ride.jpg')}}" alt="dark logo" class="logo-lg" style="width:140px; height:70px; border: none; border-radius:5%;"  >
-                    {{-- <img src="assets/images/logo-sm.png" alt="small logo" class="logo-sm" height="28"> --}}
-                </a>
-            </div>
-
-            <!--- Menu -->
-            <div data-simplebar>
-                <ul class="app-menu">
-
-                    <li class="menu-title">Menu</li>
-
-                    <li class="menu-item">
-                        <a href="index.html" class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bx-home-smile"></i></span>
-                            <span class="menu-text"> Dashboards </span>
-                            <span class="badge bg-primary rounded ms-auto">01</span>
-                        </a>
-                    </li>
-
-                    <li class="menu-title">Custom</li>
-
-                    <li class="menu-item">
-                        <a href="apps-calendar.html" class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bx-calendar"></i></span>
-                            <span class="menu-text">Manage Rides </span>
-                        </a>
-                    </li>
-
-                    <li class="menu-item">
-                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bx-file"></i></span>
-                            <span class="menu-text"> Users </span>
-                            {{-- <span class="menu-arrow"></span> --}}
-                        </a>
-                        <div class="collapse" id="menuExpages">
-                            <ul class="sub-menu">
-                                <li class="menu-item">
-                                    <a href="pages-starter.html" class="menu-link">
-                                        <span class="menu-text">Starter</span>
-                                    </a>
-                                </li>
-                             
-                            </ul>
-                        </div>
-                    </li>
-  <li class="menu-item">
-                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bx-file"></i></span>
-                            <span class="menu-text"> Drivers </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="menuExpages">
-                            <ul class="sub-menu">
-                                <li class="menu-item">
-                                     <a href="{{ route('drivers.index') }}" class="menu-link">
-                                        <span class="menu-text">View drivers</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                     <a href="{{ route('drivers.create') }}" class="menu-link">
-                                        <span class="menu-text">Add drivers</span>
-                                    </a>
-                                </li>
-                             
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="menu-title">Components</li>
-
-                 <li class="menu-item">
-                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bx-file"></i></span>
-                            <span class="menu-text"> Clients </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="menuExpages">
-                            <ul class="sub-menu">
-                                <li class="menu-item">
-                                     <a href="{{ route('clients.index') }}" class="menu-link">
-                                        <span class="menu-text">View clients</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                     <a href="{{ route('clients.create') }}" class="menu-link">
-                                        <span class="menu-text">Add clients</span>
-                                    </a>
-                                </li>
-                             
-                            </ul>
-                        </div>
-                    </li>
-
-                     <li class="menu-item">
-                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bx-file"></i></span>
-                            <span class="menu-text"> Cars </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="menuExpages">
-                            <ul class="sub-menu">
-                                <li class="menu-item">
-                                     <a href="{{ route('cars.index') }}" class="menu-link">
-                                        <span class="menu-text">View cars</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                     <a href="{{ route('cars.create') }}" class="menu-link">
-                                        <span class="menu-text">Add cars</span>
-                                    </a>
-                                </li>
-                             
-                            </ul>
-                        </div>
-                    </li>
-
-                  <li class="menu-item">
-                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bx-file"></i></span>
-                            <span class="menu-text"> Routes </span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="collapse" id="menuExpages">
-                            <ul class="sub-menu">
-                                <li class="menu-item">
-                                     <a href="{{ route('routes.index') }}" class="menu-link">
-                                        <span class="menu-text">View routes</span>
-                                    </a>
-                                </li>
-                                <li class="menu-item">
-                                     <a href="{{ route('routes.create') }}" class="menu-link">
-                                        <span class="menu-text">Add routes</span>
-                                    </a>
-                                </li>
-                             
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="menu-item">
-                        <a href="#menuForms" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bxs-eraser"></i></span>
-                            <span class="menu-text"> Payments </span>
-                            {{-- <span class="menu-arrow"></span> --}}
-                        </a>
-                        <div class="collapse" id="menuForms">
-                            <ul class="sub-menu">
-                                <li class="menu-item">
-                                    <a href="forms-elements.html" class="menu-link">
-                                        <span class="menu-text">General Elements</span>
-                                    </a>
-                                </li>
-                              
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="menu-item">
-                        <a href="#menuTables" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bx-table"></i></span>
-                            <span class="menu-text"> Reports </span>
-                            {{-- <span class="menu-arrow"></span> --}}
-                        </a>
-                      
-                    </li>
-
-                    <li class="menu-item">
-                        <a href="#menuCharts" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
-                            <span class="menu-icon"><i class="bx bx-doughnut-chart"></i></span>
-                            <span class="menu-text"> Settings </span>
-                            {{-- <span class="menu-arrow"></span> --}}
-                        </a>
-                        <div class="collapse" id="menuCharts">
-                            <ul class="sub-menu">
-                                <li class="menu-item">
-                                    <a href="charts-apex.html" class="menu-link">
-                                        <span class="menu-text">Apex Charts</span>
-                                    </a>
-                                </li>
-                               
-                            </ul>
-                        </div>
-                    </li>
-
-                   
-                </ul>
-            </div>
-        </div>
+ 
          <!-- ============================================================== -->
         <!-- Start Page Content here -->
         <!-- ============================================================== -->
@@ -492,71 +293,47 @@
                                         <p class="sub-header"></p>
 
                                            
-              <form class="needs-validation" method="POST" action="{{ route('cars.update', $car->id) }}" novalidate>
+              <form class="needs-validation" method="POST" action="{{ route('drivers.update', $driver->id) }}" novalidate>
     @csrf 
     @method('PUT') <!-- Specify the PUT method for updates -->
 
     <div class="mb-3">
-        <label for="validationCustom01" class="form-label">Car Name</label>
-        <input type="text" class="form-control" id="validationCustom01" placeholder="Car Name" value="{{ old('car_name', $car->car_name) }}" name="car_name" required>
+        <label for="validationCustom01" class="form-label">driver full name</label>
+        <input type="text" class="form-control" id="validationCustom01" placeholder="Car Name" value="{{ old('full_name', $driver->full_name) }}" name="full_name" required>
         <div class="valid-feedback">
             Looks good!
         </div>
     </div>
 
     <div class="mb-3">
-        <label for="validationCustom02" class="form-label">Car Model</label>
-        <input type="text" class="form-control" id="validationCustom02" placeholder="Car Model" value="{{ old('car_model', $car->car_model) }}" name="car_model" required>
+        <label for="validationCustom02" class="form-label">phone_number</label>
+        <input type="text" class="form-control" id="validationCustom02" placeholder="phone number" value="{{ old('phone_number', $driver->phone_number) }}" name="phone_number" required>
+        <div class="valid-feedback">
+            Looks good!
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="validationCustom02" class="form-label">email</label>
+        <input type="text" class="form-control" id="validationCustom02" placeholder="Email" value="{{ old('email', $driver->email) }}" name="email" required>
         <div class="valid-feedback">
             Looks good!
         </div>
     </div>
 
-    <div class="mb-3">
-        <label for="validationCustom03" class="form-label">Year Manufactured</label>
-        <input type="number" class="form-control" id="validationCustom03" placeholder="Year Manufactured" value="{{ old('year_manufactured', $car->year_manufactured) }}" name="year_manufactured" required>
-        <div class="valid-feedback">
-            Looks good!
-        </div>
-    </div>
+   
 
     <div class="mb-3">
-        <label for="validationCustom04" class="form-label">Chassis Number</label>
-        <input type="text" class="form-control" id="validationCustom04" placeholder="Chassis Number" value="{{ old('chassis_number', $car->chassis_number) }}" name="chassis_number" required>
+        <label for="validationCustom04" class="form-label">vehicle_type</label>
+        <input type="text" class="form-control" id="validationCustom04" placeholder="vehicle_type" value="{{ old('vehicle_type', $driver->vehicle_type) }}" name="vehicle_type" required>
         <div class="invalid-feedback">
             Please provide a valid Chassis Number.
         </div>
     </div>
 
-    <div class="mb-3">
-        <label for="plate_number" class="form-label">Plate Number</label>
-        <input type="text" class="form-control" id="plate_number" placeholder="Plate Number" value="{{ old('plate_number', $car->plate_number) }}" name="plate_number" required>
-        <div class="invalid-feedback">
-            Please provide a valid Plate Number.
-        </div>
-    </div>
+   
 
-    <div class="mb-3">
-        <label for="color" class="form-label">Color</label>
-        <input type="text" class="form-control" id="color" placeholder="Color" value="{{ old('color', $car->color) }}" name="color" required>
-        <div class="valid-feedback">
-            Looks good!
-        </div>
-    </div>
+  
 
-    <div class="mb-3">
-        <label for="type" class="form-label">Type</label>
-        <select class="form-select" id="type" name="type" required>
-            <option value="" disabled>Select Type</option>
-            <option value="Sedan" {{ $car->type == 'Sedan' ? 'selected' : '' }}>Sedan</option>
-            <option value="SUV" {{ $car->type == 'SUV' ? 'selected' : '' }}>SUV</option>
-            <option value="Minivan" {{ $car->type == 'Minivan' ? 'selected' : '' }}>Minivan</option>
-            <option value="Other" {{ $car->type == 'Other' ? 'selected' : '' }}>Other</option>
-        </select>
-        <div class="invalid-feedback">
-            Please select a valid type.
-        </div>
-    </div>
 
     <button class="btn btn-primary" type="submit">Update Driver</button> <!-- Changed button text -->
 </form>
