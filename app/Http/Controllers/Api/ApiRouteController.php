@@ -71,9 +71,9 @@ public function requestRide(Request $request)
     $destLat = $request->destination['lat'];
     $destLng = $request->destination['lng'];
 
-    // Use demo data for distance and duration
-    $distance = $this->calculateDistance($pickupLat, $pickupLng, $destLat, $destLng); // in kilometers
-    $duration = $distance * 2; // Assuming an average speed of 30 km/h
+    // Calculate distance and duration
+    $distance = $this->calculateDistance($pickupLat, $pickupLng, $destLat, $destLng);
+    $duration = $distance * 2; // Assuming an average speed
 
     // Calculate fare
     $fare = $this->calculateFare($distance, $request->car_type);
@@ -100,61 +100,30 @@ public function requestRide(Request $request)
             'duration_min' => $duration,
         ]);
 
-        // Log the created route
-        \Log::info('Ride created successfully:', [
-            'ride_id' => $ride->id,
-            'client_id' => $request->client_id,
-            'pickup_location' => $request->pickup_location,
-            'destination' => $request->destination,
-            'car_type' => $request->car_type,
-            'fare' => $fare,
-            'distance_km' => $distance,
-            'duration_min' => $duration,
-        ]);
+        
 
-        // Fetch client details
-        $client = Client::find($request->client_id);
-
-        // Create notifications for each available driver
+        // Create notifications for each available driver and dispatch events
         foreach ($availableDrivers as $driver) {
-            Notification::create([
-                'driver_id' => $driver->id,
-                'route_id' => $ride->id,
-                'client_name' => $client->full_name,
-                'client_contact' => $client->phone_number,
-                'pickup_location' => $request->pickup_location,
-                'destination' => $ride->destination,
-                'estimated_fare' => $ride->fare,
-                'estimated_distance' => $ride->distance_km,
-                'estimated_duration' => $ride->duration_min,
-                'status' => 'pending',
-                'created_at' => now(),
-            ]);
-
-            // Optionally, broadcast the notification to the driver
-                        event(new RideRequestEvent(
-                            $ride->id,
-                            $request->pickup_location,
-                            $request->destination,
-                            $ride->fare,
-                            $request->car_type,
-                            $driver->id
-                        ));
+            // Dispatch the event to notify the driver
+            event(new RideRequestEvent(
+                $ride->id,
+                $request->pickup_location,
+                $request->destination,
+                $ride->fare,
+                $request->car_type,
+                $driver->id
+            ));
         }
 
-        \Log::info('Ride created:', (array)$ride);
     } catch (\Exception $e) {
-    \Log::error('Error creating ride: ' . $e->getMessage(), [
-        'stack' => $e->getTraceAsString(),
-    ]);
-    return response()->json(['message' => 'Error creating ride'], 500);
-}
+        \Log::error('Error creating ride: ' . $e->getMessage(), [
+            'stack' => $e->getTraceAsString(),
+        ]);
+        return response()->json(['message' => 'Error creating ride'], 500);
+    }
 
     return response()->json($ride, 201);
 }
-// private function notifyDriver($driver, $ride)
-// {
-//       $client = Client::find($ride->client_id); // Ensure you have the correct relationship
 
   
 
