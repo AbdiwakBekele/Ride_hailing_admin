@@ -56,8 +56,7 @@ return new class extends Migration
             $table->string('insurance_url')->nullable(); // DEFAULT NULL
             $table->string('insurance_policy_number')->nullable(); // DEFAULT NULL
             $table->string('insurance_status')->nullable(); // DEFAULT NULL
-            $table->string('insurance_provider')->nullable(); // DEFAULT NULL
-            $table->string('insurance_issue_date')->nullable(); // DEFAULT NULL
+            $table->string('insurance_provider')->nullable(); // DEFAULT NULL 
             $table->string('insurance_expiry_date')->nullable(); // DEFAULT NULL
             $table->string('picture_url')->nullable(); // DEFAULT NULL
             $table->string('picture_status')->nullable(); // DEFAULT NULL

@@ -157,7 +157,6 @@ public function uploadInsurance(Request $request)
     $driver->insurance_url = $filePath;
     $driver->insurance_policy_number = $validated['insurance']['policy_number']; // Store the license number
     $driver->insurance_provider = $validated['insurance']['provider']; // Store the license number
-    $driver->insurance_issue_date = $validated['insurance']['issue_date']; // Store the license number
     $driver->insurance_expiry_date = $validated['insurance']['expiry_date'];
     $driver->insurance_status = 'pending_verification';
     $driver->save();
@@ -180,7 +179,7 @@ public function uploadPicture(Request $request)
     // Update driver record with the picture URL
     $driver = Driver::find($validated['driver_id']);
     $driver->picture_url = $filePath;
-    $dricer->picture_status = 'pending_verification'; // Optional: Set a status for the picture
+    $driver->picture_status = 'pending_verification'; // Optional: Set a status for the picture
     $driver->save();
 
     return response()->json(['message' => 'Driver picture uploaded successfully!']);
