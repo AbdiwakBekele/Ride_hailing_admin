@@ -47,11 +47,18 @@ return new class extends Migration
             $table->string('national_id_url')->nullable(); // DEFAULT NULL
             $table->string('national_id_status')->nullable(); // DEFAULT NULL
             $table->string('national_id_number')->nullable(); // DEFAULT NULL
+            $table->string('national_id_expiry_date')->nullable(); // DEFAULT NULL
             $table->string('license_url')->nullable(); // DEFAULT NULL
             $table->string('license_status')->nullable(); // DEFAULT NULL
             $table->string('license_number')->nullable(); // DEFAULT NULL
+            $table->string('license_issue_date')->nullable(); // DEFAULT NULL
+            $table->string('license_expiry_date')->nullable(); // DEFAULT NULL
             $table->string('insurance_url')->nullable(); // DEFAULT NULL
+            $table->string('insurance_policy_number')->nullable(); // DEFAULT NULL
             $table->string('insurance_status')->nullable(); // DEFAULT NULL
+            $table->string('insurance_provider')->nullable(); // DEFAULT NULL
+            $table->string('insurance_issue_date')->nullable(); // DEFAULT NULL
+            $table->string('insurance_expiry_date')->nullable(); // DEFAULT NULL
             $table->string('picture_url')->nullable(); // DEFAULT NULL
             $table->string('picture_status')->nullable(); // DEFAULT NULL
             $table->enum('status', ['Active', 'Banned', 'Pending'])->default('Pending'); // NOT NULL DEFAULT 'Pending'

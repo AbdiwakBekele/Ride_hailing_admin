@@ -84,6 +84,7 @@ class ApiDriverController extends Controller
 // Upload National ID
 public function uploadNationalId(Request $request)
 {
+    // Validate the incoming request
     $validated = $request->validate([
         'driver_id' => 'required|exists:drivers,id',
         'national_id.file_name' => 'required|string',
@@ -97,7 +98,13 @@ public function uploadNationalId(Request $request)
     
     // Update driver record with the national ID URL
     $driver = Driver::find($validated['driver_id']);
-    $driver->national_id_url = $filePath;
+    $driver->national_id_url = $filePath; // This will be a public URL
+    $driver->national_id_number = $validated['national_id']['id_number']; // Save ID number
+    $driver->national_id_expiry_date = $validated['national_id']['expiry_date']; // Save expiry_date
+    $driver->national_id_status = 'pending_verification'; // Optional status field
+    $driver->save();
+
+    return response()->json(['message' => 'National ID uploaded successfully!']);
     $driver->save();
 
     return response()->json(['message' => 'National ID uploaded successfully!']);
@@ -120,7 +127,11 @@ public function uploadLicense(Request $request)
     
     // Update driver record with the license URL
     $driver = Driver::find($validated['driver_id']);
-    $driver->license_url = $filePath;
+    $driver->license_url = $filePath; // Store the URL of the uploaded license
+    $driver->license_number = $validated['driver_license']['license_number']; // Store the license number
+    $driver->license_issue_date = $validated['driver_license']['issue_date']; // Store the license number
+    $driver->license_expiry_date = $validated['driver_license']['expiry_date']; // Store the license number
+    $driver->license_status = 'pending_verification'; // Optional: Set a status for the license
     $driver->save();
 
     return response()->json(['message' => 'Driver license uploaded successfully!']);
@@ -144,6 +155,11 @@ public function uploadInsurance(Request $request)
     // Update driver record with the insurance URL
     $driver = Driver::find($validated['driver_id']);
     $driver->insurance_url = $filePath;
+    $driver->insurance_policy_number = $validated['insurance']['policy_number']; // Store the license number
+    $driver->insurance_provider = $validated['insurance']['provider']; // Store the license number
+    $driver->insurance_issue_date = $validated['insurance']['issue_date']; // Store the license number
+    $driver->insurance_expiry_date = $validated['insurance']['expiry_date'];
+    $driver->insurance_status = 'pending_verification';
     $driver->save();
 
     return response()->json(['message' => 'Insurance uploaded successfully!']);
@@ -164,6 +180,7 @@ public function uploadPicture(Request $request)
     // Update driver record with the picture URL
     $driver = Driver::find($validated['driver_id']);
     $driver->picture_url = $filePath;
+    $dricer->picture_status = 'pending_verification'; // Optional: Set a status for the picture
     $driver->save();
 
     return response()->json(['message' => 'Driver picture uploaded successfully!']);
@@ -256,7 +273,7 @@ public function toggleStatus(Request $request)
     $path = 'documents/' . $fileName; // Adjust this to your desired structure
     
     // Store the file locally
-    Storage::disk('local')->put($path, $fileData);
+    Storage::disk('public')->put($path, $fileData);
 
     return Storage::url($path); // Returns the URL for accessing the file
 }

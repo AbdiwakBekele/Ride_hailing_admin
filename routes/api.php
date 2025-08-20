@@ -44,6 +44,8 @@ Route::apiResource('routes', ApiRouteController::class);
 // Request Ride Route
 Route::post('/rides/request', [ApiRouteController::class, 'requestRide']);
 
+Route::get('/rides/{id}', [ApiRouteController::class, 'getRideDetails']);
+
 // estimate fare
 Route::post('/rides/estimate', [ApiRouteController::class, 'estimateFare']);
 
